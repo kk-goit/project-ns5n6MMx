@@ -37,7 +37,7 @@ const Recipe= sequelize.define(
         key: "id",
       },
     },
-    instruction: {
+    instructions: {
       type: DataTypes.TEXT,
       allowNull: false,
     },

@@ -5,8 +5,8 @@ import { Area } from "./models/areas.js";
 import { Ingredient } from "./models/ingredients.js";
 import { Recipe, RecipeIngredient } from "./models/recipes.js";
 
-const syncCondition = { alter: true, force: true };
-const doSync = true;
+const syncCondition = { alter: true, force: false };
+const doSync = false;
  
 if (doSync) { 
   await User.sync(syncCondition);
@@ -18,3 +18,4 @@ if (doSync) {
   await Recipe.sync(syncCondition);
   await RecipeIngredient.sync(syncCondition);
 }
+

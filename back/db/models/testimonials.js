@@ -15,7 +15,7 @@ const Testimonial = sequelize.define(
       },
     },
     testimonial: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING(512),
       allowNull: false,
     },
   },
