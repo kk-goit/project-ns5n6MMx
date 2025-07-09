@@ -1,0 +1,37 @@
+{
+  "name": "foodies-backend",
+  "version": "1.0.0",
+  "description": "goIT NODE+REACT final project Foodies Backend",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kk-goit/project-ns5n6MMx.git"
+  },
+  "author": "Kostiantyn Kolomiychuk <kkondor@yahoo.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kk-goit/project-ns5n6MMx/issues"
+  },
+  "homepage": "https://github.com/kk-goit/project-ns5n6MMx#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.1.0",
+    "express": "^5.1.0",
+    "gravatar": "^1.8.2",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.1",
+    "nanoid": "^5.1.5",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7"
+  }
+}
