@@ -1,6 +1,18 @@
 # add Recepie Test Info
 
-цей рідмі соже бути видалений
+цей рідмі може бути видалений
+
+в addRecipeController розкоментувати
+
+```
+const ownerId = 1;
+```
+
+і закоментувати
+
+```
+сonst ownerId = req.user.id;
+```
 
 # Для тесту users та ingredients мають мати дінні
 
