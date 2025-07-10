@@ -13,9 +13,10 @@ export async function addRecipeController(req, res) {
       thumb,
       time,
       ingredients,
-      ownerId,
     } = req.body;
 
+    const ownerId = req.user.id;
+    //const ownerId = 1;//тільки для тесту, бо додала в свою db такого юзера
     const categoryObj = await Category.findOne({ where: { name: category } });
     const areaObj = await Area.findOne({ where: { name: area } });
 

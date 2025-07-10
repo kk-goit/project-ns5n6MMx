@@ -6,9 +6,9 @@ import { Ingredient } from "./models/ingredients.js";
 import { Recipe, RecipeIngredient } from "./models/recipes.js";
 
 const syncCondition = { alter: true, force: false };
-const doSync = false;
- 
-if (doSync) { 
+const doSync = true;
+
+if (doSync) {
   await User.sync(syncCondition);
   await UserFollow.sync(syncCondition);
   await Testimonial.sync(syncCondition);
@@ -19,3 +19,5 @@ if (doSync) {
   await RecipeIngredient.sync(syncCondition);
 }
 
+await Category.create({ name: "main" });
+await Area.create({ name: "europe" });
