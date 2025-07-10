@@ -1,7 +1,6 @@
 import { Sequelize } from "sequelize";
 import { } from "dotenv/config"; // For .env variables to work
 
-console.log(process.env.DATABASE_DIALECT);
 const sequelize = new Sequelize({
   dialect: process.env.DATABASE_DIALECT,
   username: process.env.DATABASE_USERNAME,
