@@ -1,12 +1,13 @@
+import { } from "dotenv/config"; // For .env variables to work
 import { User, UserFollow } from "./models/users.js";
 import { Testimonial } from "./models/testimonials.js";
 import { Category } from "./models/categories.js";
 import { Area } from "./models/areas.js";
 import { Ingredient } from "./models/ingredients.js";
-import { Recipe, RecipeIngredient } from "./models/recipes.js";
+import { Recipe, RecipeIngredient, RecipeUserFaivorite } from "./models/recipes.js";
 
 const syncCondition = { alter: true, force: false };
-const doSync = false;
+const doSync = process.env.DATABASE_SYNC === "yes"? true : false;
 
 Testimonial.belongsTo(User, {
   foreignKey: 'user_id',
@@ -28,5 +29,5 @@ if (doSync) {
   await Ingredient.sync(syncCondition);
   await Recipe.sync(syncCondition);
   await RecipeIngredient.sync(syncCondition);
+  await RecipeUserFaivorite.sync(syncCondition);
 }
-
