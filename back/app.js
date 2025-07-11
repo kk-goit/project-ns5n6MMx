@@ -7,7 +7,7 @@ import "./db/sync.js";
 import recipeRouter from "./routers/recipeRouter.js";
 import controllerWrapper from "./decorators/controllerWrapper.js";
 import apiRouter from "./routes/apiRouter.js";
-
+import recipesRouter from "./routes/recipesRouter.js";
 const app = express();
 
 app.use(morgan("tiny"));
@@ -18,6 +18,7 @@ app.use("/api/recipes", recipeRouter);
 
 app.use(express.static("public"));
 
+app.use("/api/recipes", controllerWrapper(recipesRouter));
 app.use("/api/auth", authRouter);
 app.use('/api', controllerWrapper(apiRouter));
 
