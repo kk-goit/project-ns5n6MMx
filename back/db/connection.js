@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize";
-import { } from "dotenv/config"; // For .env variables to work
+import {} from "dotenv/config"; // For .env variables to work
+
+console.log(process.env);
 
 const sequelize = new Sequelize({
   dialect: process.env.DATABASE_DIALECT,
@@ -9,7 +11,7 @@ const sequelize = new Sequelize({
   database: process.env.DATABASE_NAME,
   port: process.env.DATABASE_PORT,
   dialectOptions: {
-    ssl: process.env.DATABASE_SSL === 'yes'? true : false,
+    ssl: process.env.DATABASE_SSL === "yes"? true : false,
   },
 });
 

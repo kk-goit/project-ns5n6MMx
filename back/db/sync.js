@@ -8,6 +8,17 @@ import { Recipe, RecipeIngredient, RecipeUserFaivorite } from "./models/recipes.
 
 const syncCondition = { alter: true, force: false };
 const doSync = process.env.DATABASE_SYNC === "yes"? true : false;
+
+Testimonial.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user',
+});
+
+
+User.hasMany(Testimonial, {
+  foreignKey: 'user_id',
+  as: 'testimonials',
+});
  
 if (doSync) { 
   await User.sync(syncCondition);
@@ -20,4 +31,3 @@ if (doSync) {
   await RecipeIngredient.sync(syncCondition);
   await RecipeUserFaivorite.sync(syncCondition);
 }
-
