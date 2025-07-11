@@ -1,3 +1,8 @@
+
+.idea
+.vscode
+back/.env
+back/node_modules
 pgdata/*
 .DS_Store
 back/.DS_Store
@@ -5,3 +10,4 @@ back/.env
 back/node_modules/
 db/.DS_Store
 db/pgdata/*
+
