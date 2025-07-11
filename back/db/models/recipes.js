@@ -6,7 +6,7 @@ import { Category } from "./categories.js";
 import { Area } from "./areas.js";
 import { User } from "./users.js";
 
-const Recipe= sequelize.define(
+const Recipe = sequelize.define(
   "recipes",
   {
     title: {
@@ -93,10 +93,12 @@ const RecipeIngredient = sequelize.define(
 Recipe.hasMany(RecipeIngredient, {
   foreignKey: 'reciep_id',
   as: 'ingredients',
+  onDelete: 'CASCADE',
 });
 RecipeIngredient.belongsTo(Recipe, {
   foreignKey: 'reciep_id',
   as: 'recipe',
+  onDelete: 'CASCADE',
 });
 
 
