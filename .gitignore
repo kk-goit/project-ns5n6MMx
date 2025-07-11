@@ -1,0 +1,4 @@
+.idea
+.vscode
+back/.env
+back/node_modules
