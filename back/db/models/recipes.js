@@ -6,58 +6,55 @@ import { Category } from "./categories.js";
 import { Area } from "./areas.js";
 import { User } from "./users.js";
 
-const Recipe= sequelize.define(
-  "recipes",
-  {
-    title: {
-      type: DataTypes.STRING(128),
-      allowNull: false,
+const Recipe = sequelize.define("recipes", {
+  title: {
+    type: DataTypes.STRING(128),
+    allowNull: false,
+  },
+  category_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Category,
+      key: "id",
     },
-    category_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Category,
-        key: "id",
-      },
+  },
+  area_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Area,
+      key: "id",
     },
-    area_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Area,
-        key: "id",
-      },
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: "id",
     },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: User,
-        key: "id",
-      },
+  },
+  instructions: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.STRING(2048),
+    allowNull: false,
+  },
+  time: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  thumb: {
+    type: DataTypes.STRING(1024),
+    allowNull: false,
+    validate: {
+      isUrl: true,
     },
-    instructions: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    description: {
-      type: DataTypes.STRING(2048),
-      allowNull: false,
-    },
-    time: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    thumb: {
-      type: DataTypes.STRING(1024),
-      allowNull: false,
-      validate: {
-        isUrl: true,
-      },
-    },
-  }
-);
+  },
+});
 
 const RecipeIngredient = sequelize.define(
   "recipes_ingredients",
@@ -91,13 +88,16 @@ const RecipeIngredient = sequelize.define(
 );
 
 Recipe.hasMany(RecipeIngredient, {
-  foreignKey: 'reciep_id',
-  as: 'ingredients',
+  foreignKey: "reciep_id",
+  as: "ingredients",
 });
 RecipeIngredient.belongsTo(Recipe, {
-  foreignKey: 'reciep_id',
-  as: 'recipe',
+  foreignKey: "reciep_id",
+  as: "recipe",
 });
-
+RecipeIngredient.belongsTo(Ingredient, {
+  foreignKey: "ingredient_id",
+  as: "ingredient",
+});
 
 export { Recipe, RecipeIngredient };
