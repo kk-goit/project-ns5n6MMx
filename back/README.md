@@ -14,6 +14,18 @@ const ownerId = 1;
 сonst ownerId = req.user.id;
 ```
 
+# recipesRouter має виглядати так після того як отримаєм фуункцію auth та validateBody
+
+```
+//recipesRouter.post("/", auth, validateBody(recipeSchema), addRecipeController);
+```
+
+# на разі використовую скорочену версію
+
+```
+recipesRouter.post("/", addRecipeController);
+```
+
 # Для тесту users та ingredients мають мати дінні
 
 # Підготовка даних у базі
