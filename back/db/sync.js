@@ -7,6 +7,17 @@ import { Recipe, RecipeIngredient } from "./models/recipes.js";
 
 const syncCondition = { alter: true, force: false };
 const doSync = false;
+
+Testimonial.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user',
+});
+
+
+User.hasMany(Testimonial, {
+  foreignKey: 'user_id',
+  as: 'testimonials',
+});
  
 if (doSync) { 
   await User.sync(syncCondition);
