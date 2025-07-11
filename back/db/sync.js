@@ -30,3 +30,5 @@ if (doSync) {
   await RecipeIngredient.sync(syncCondition);
 }
 
+await Category.create({ name: "main" });
+await Area.create({ name: "europe" });
