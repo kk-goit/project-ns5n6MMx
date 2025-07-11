@@ -1,4 +1,4 @@
-import { processAndSaveAvatar } from "../services/avatarService.js";
+import { processAndSaveAvatar } from "../services/profileService.js";
 
 export const updateAvatar = async (req, res, next) => {
   try {
