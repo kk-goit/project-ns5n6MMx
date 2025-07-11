@@ -16,7 +16,6 @@ apiRouter.use('/testimonials', controllerWrapper(testimonialsRouter));
 apiRouter.use('/users', userRouter);
 apiRouter.use('/recipes', controllerWrapper(recipesRouter));
 
-
-apiRouter.use((req, res) => res.status(404).json({ message: 'Not found' }));
+apiRouter.use((req, res) => res.status(404).json({ message: "Not found" }));
 
 export default apiRouter;
