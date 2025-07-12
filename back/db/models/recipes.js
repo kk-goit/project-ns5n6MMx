@@ -126,5 +126,4 @@ Recipe.hasMany(RecipeIngredient, {foreignKey: "recipe_id", as: "ingredients"});
 RecipeIngredient.belongsTo(Recipe, {foreignKey: "recipe_id", as: "recipe"});
 RecipeIngredient.belongsTo(Ingredient, {foreignKey: "ingredient_id", as: "ingredient"})
 
-
 export { Recipe, RecipeIngredient, RecipeUserFaivorite };
