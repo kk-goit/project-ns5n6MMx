@@ -11,7 +11,10 @@ import "./db/sync.js";
 
 import controllerWrapper from "./decorators/controllerWrapper.js";
 import apiRouter from "./routes/apiRouter.js";
+
+import HttpError from "./errors/httpError.js";
 import recipesRouter from "./routes/recipesRouter.js";
+
 
 const app = express();
 
@@ -34,6 +37,9 @@ app.use((_, res) => {
 });
 
 app.use((err, req, res, next) => {
+  if (err instanceof HttpError) {
+    return res.status(err.status).json(err);
+  }
   const { status = 500, message = "Server error" } = err;
   res.status(status).json({ message });
 });
