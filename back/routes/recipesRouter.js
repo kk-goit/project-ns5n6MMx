@@ -1,9 +1,10 @@
-import express from "express";
-import controllerWrapper from "../decorators/controllerWrapper.js";
-
-import { getRecipeByIdController } from "../controllers/recipesController.js";
+import express from 'express';
+import {listRecipes, getRecipeByIdController } from '../controllers/recipesController.js';
+import controllerWrapper from '../decorators/controllerWrapper.js';
 
 const recipesRouter = express.Router();
+
+recipesRouter.get('/', controllerWrapper(listRecipes));
 
 recipesRouter.use("/:id", controllerWrapper(getRecipeByIdController));
 
