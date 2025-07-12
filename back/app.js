@@ -4,12 +4,15 @@ import cors from "cors";
 
 import profileRoutes from "./routes/profileRoutes.js";
 import authRouter from "./routes/authRouter.js";
+import followsRouter from "./routes/follows.js";
+import recipeRouter from "./routers/recipeRouter.js";
 
 import "./db/sync.js";
-import recipeRouter from "./routers/recipeRouter.js";
+
 import controllerWrapper from "./decorators/controllerWrapper.js";
 import apiRouter from "./routes/apiRouter.js";
 import recipesRouter from "./routes/recipesRouter.js";
+
 const app = express();
 
 app.use(morgan("tiny"));
@@ -19,6 +22,7 @@ app.use(express.json());
 app.use("/api/recipes", recipeRouter);
 
 app.use(express.static("public"));
+app.use("/api/users", followsRouter);
 
 app.use("/api/profile", profileRoutes);
 app.use("/api/recipes", controllerWrapper(recipesRouter));
