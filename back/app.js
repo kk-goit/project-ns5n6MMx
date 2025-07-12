@@ -1,18 +1,25 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import authRouter from "./routes/authRouter.js";
 
 import "./db/sync.js";
+import recipeRouter from "./routers/recipeRouter.js";
 import controllerWrapper from "./decorators/controllerWrapper.js";
 import apiRouter from "./routes/apiRouter.js";
-
+import recipesRouter from "./routes/recipesRouter.js";
 const app = express();
 
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/recipes", recipeRouter);
+
 app.use(express.static("public"));
 
+app.use("/api/recipes", controllerWrapper(recipesRouter));
+app.use("/api/auth", authRouter);
 app.use('/api', controllerWrapper(apiRouter));
 
 app.use((_, res) => {

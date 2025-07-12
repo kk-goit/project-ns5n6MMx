@@ -90,7 +90,32 @@ const RecipeIngredient = sequelize.define(
     }
 );
 
-
+const RecipeUserFaivorite = sequelize.define(
+  "users_favorite_recipes",
+  {
+    reciep_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: Recipe,
+        key: "id",
+      },
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: User,
+        key: "id",
+      },
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
 
 
 Recipe.belongsTo(User, {foreignKey: "user_id", as: "user"});
@@ -102,4 +127,4 @@ RecipeIngredient.belongsTo(Recipe, {foreignKey: "recipe_id", as: "recipe"});
 RecipeIngredient.belongsTo(Ingredient, {foreignKey: "ingredient_id", as: "ingredient"})
 
 
-export {Recipe, RecipeIngredient};
+export { Recipe, RecipeIngredient, RecipeUserFaivorite };
