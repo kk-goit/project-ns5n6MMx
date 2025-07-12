@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.18 (Debian 14.18-1.pgdg120+1)
--- Dumped by pg_dump version 14.18 (Ubuntu 14.18-0ubuntu0.22.04.1)
+-- Dumped from database version 16.9 (Debian 16.9-1.pgdg120+1)
+-- Dumped by pg_dump version 16.9 (Debian 16.9-1.pgdg120+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: areas; Type: TABLE; Schema: public; Owner: backend
+-- Name: areas; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.areas (
@@ -30,10 +30,8 @@ CREATE TABLE public.areas (
 );
 
 
-ALTER TABLE public.areas OWNER TO backend;
-
 --
--- Name: areas_id_seq; Type: SEQUENCE; Schema: public; Owner: backend
+-- Name: areas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.areas_id_seq
@@ -45,29 +43,27 @@ CREATE SEQUENCE public.areas_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.areas_id_seq OWNER TO backend;
-
 --
--- Name: areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: backend
+-- Name: areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.areas_id_seq OWNED BY public.areas.id;
 
 
 --
--- Name: categories; Type: TABLE; Schema: public; Owner: backend
+-- Name: categories; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.categories (
     id integer NOT NULL,
-    name character varying(64) NOT NULL
+    name character varying(64) NOT NULL,
+    img character varying(1024),
+    "desc" character varying(4096)
 );
 
 
-ALTER TABLE public.categories OWNER TO backend;
-
 --
--- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: backend
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.categories_id_seq
@@ -79,17 +75,15 @@ CREATE SEQUENCE public.categories_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.categories_id_seq OWNER TO backend;
-
 --
--- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: backend
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 
 
 --
--- Name: ingredients; Type: TABLE; Schema: public; Owner: backend
+-- Name: ingredients; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.ingredients (
@@ -100,10 +94,8 @@ CREATE TABLE public.ingredients (
 );
 
 
-ALTER TABLE public.ingredients OWNER TO backend;
-
 --
--- Name: ingredients_id_seq; Type: SEQUENCE; Schema: public; Owner: backend
+-- Name: ingredients_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.ingredients_id_seq
@@ -115,17 +107,15 @@ CREATE SEQUENCE public.ingredients_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ingredients_id_seq OWNER TO backend;
-
 --
--- Name: ingredients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: backend
+-- Name: ingredients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.ingredients_id_seq OWNED BY public.ingredients.id;
 
 
 --
--- Name: recipes; Type: TABLE; Schema: public; Owner: backend
+-- Name: recipes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.recipes (
@@ -143,10 +133,8 @@ CREATE TABLE public.recipes (
 );
 
 
-ALTER TABLE public.recipes OWNER TO backend;
-
 --
--- Name: recipes_id_seq; Type: SEQUENCE; Schema: public; Owner: backend
+-- Name: recipes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.recipes_id_seq
@@ -158,17 +146,15 @@ CREATE SEQUENCE public.recipes_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.recipes_id_seq OWNER TO backend;
-
 --
--- Name: recipes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: backend
+-- Name: recipes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.recipes_id_seq OWNED BY public.recipes.id;
 
 
 --
--- Name: recipes_ingredients; Type: TABLE; Schema: public; Owner: backend
+-- Name: recipes_ingredients; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.recipes_ingredients (
@@ -178,10 +164,8 @@ CREATE TABLE public.recipes_ingredients (
 );
 
 
-ALTER TABLE public.recipes_ingredients OWNER TO backend;
-
 --
--- Name: testimonials; Type: TABLE; Schema: public; Owner: backend
+-- Name: testimonials; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.testimonials (
@@ -191,10 +175,8 @@ CREATE TABLE public.testimonials (
 );
 
 
-ALTER TABLE public.testimonials OWNER TO backend;
-
 --
--- Name: testimonials_id_seq; Type: SEQUENCE; Schema: public; Owner: backend
+-- Name: testimonials_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.testimonials_id_seq
@@ -206,17 +188,15 @@ CREATE SEQUENCE public.testimonials_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.testimonials_id_seq OWNER TO backend;
-
 --
--- Name: testimonials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: backend
+-- Name: testimonials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.testimonials_id_seq OWNED BY public.testimonials.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: backend
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users (
@@ -231,10 +211,18 @@ CREATE TABLE public.users (
 );
 
 
-ALTER TABLE public.users OWNER TO backend;
+--
+-- Name: users_favorite_recipes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.users_favorite_recipes (
+    recipe_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
 
 --
--- Name: users_follows; Type: TABLE; Schema: public; Owner: backend
+-- Name: users_follows; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users_follows (
@@ -243,10 +231,8 @@ CREATE TABLE public.users_follows (
 );
 
 
-ALTER TABLE public.users_follows OWNER TO backend;
-
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: backend
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.users_id_seq
@@ -258,59 +244,57 @@ CREATE SEQUENCE public.users_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO backend;
-
 --
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: backend
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: areas id; Type: DEFAULT; Schema: public; Owner: backend
+-- Name: areas id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.areas ALTER COLUMN id SET DEFAULT nextval('public.areas_id_seq'::regclass);
 
 
 --
--- Name: categories id; Type: DEFAULT; Schema: public; Owner: backend
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.categories_id_seq'::regclass);
 
 
 --
--- Name: ingredients id; Type: DEFAULT; Schema: public; Owner: backend
+-- Name: ingredients id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.ingredients_id_seq'::regclass);
 
 
 --
--- Name: recipes id; Type: DEFAULT; Schema: public; Owner: backend
+-- Name: recipes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.recipes ALTER COLUMN id SET DEFAULT nextval('public.recipes_id_seq'::regclass);
 
 
 --
--- Name: testimonials id; Type: DEFAULT; Schema: public; Owner: backend
+-- Name: testimonials id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.testimonials ALTER COLUMN id SET DEFAULT nextval('public.testimonials_id_seq'::regclass);
 
 
 --
--- Name: users id; Type: DEFAULT; Schema: public; Owner: backend
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
--- Data for Name: areas; Type: TABLE DATA; Schema: public; Owner: backend
+-- Data for Name: areas; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.areas (id, name) FROM stdin;
@@ -345,30 +329,30 @@ COPY public.areas (id, name) FROM stdin;
 
 
 --
--- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: backend
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.categories (id, name) FROM stdin;
-1	Seafood
-2	Lamb
-3	Starter
-4	Chicken
-5	Beef
-6	Dessert
-7	Vegan
-8	Pork
-9	Vegetarian
-10	Miscellaneous
-11	Pasta
-12	Breakfast
-13	Side
-14	Goat
-15	Soup
+COPY public.categories (id, name, img, "desc") FROM stdin;
+1	Seafood	\N	\N
+2	Lamb	\N	\N
+3	Starter	\N	\N
+4	Chicken	\N	\N
+5	Beef	\N	\N
+6	Dessert	\N	\N
+7	Vegan	\N	\N
+8	Pork	\N	\N
+9	Vegetarian	\N	\N
+10	Miscellaneous	\N	\N
+11	Pasta	\N	\N
+12	Breakfast	\N	\N
+13	Side	\N	\N
+14	Goat	\N	\N
+15	Soup	\N	\N
 \.
 
 
 --
--- Data for Name: ingredients; Type: TABLE DATA; Schema: public; Owner: backend
+-- Data for Name: ingredients; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.ingredients (id, name, "desc", img) FROM stdin;
@@ -392,6 +376,7 @@ COPY public.ingredients (id, name, "desc", img) FROM stdin;
 18	Barbeque Sauce	A sweet and tangy sauce typically used for grilling or marinating meats, made with ingredients like tomato, vinegar, and spices.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e37c4.png
 32	Yellow Pepper	Yellow peppers are a type of bell pepper with a sweet, mild flavor. They are commonly used in salads, stir-fries, and other culinary applications.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e37e5.png
 33	Strawberries	A sweet and juicy fruit that is high in vitamin C and antioxidants. They are commonly eaten fresh or used in desserts like strawberry shortcake, strawberry ice cream, or strawberry jam.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3773.png
+428	Lamb Kidney	An organ meat that is commonly used in traditional British dishes such as steak and kidney pie, and is known for its distinct flavor and texture.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3801.png
 19	Scotch Bonnet	Scotch bonnet, also known as bonney peppers, or Caribbean red peppers, is a variety of chili pepper named for its resemblance to a tam o' shanter hat. Also called ata rodo by Yoruba speakers of Nigeria, it is found mainly in the Caribbean islands; it is also found in Guyana (where it is called the ball-of-fire pepper), the Maldives Islands (where it is called githeyo mirus), Panama (where it is called aji chombo) and West Africa. Most Scotch bonnets have a heat rating of 100,000–350,000 Scoville units. For comparison, most jalapeño peppers have a heat rating of 2,500 to 8,000 on the Scoville scale. However, completely sweet varieties of Scotch bonnet are grown on some of the Caribbean islands, called cachucha peppers.\r\n\r\nThese peppers are used to flavour many different dishes and cuisines worldwide and are often used in hot sauces and condiments. The Scotch bonnet has a sweeter flavour and stouter shape, distinct from its habanero relative with which it is often confused, and gives jerk dishes (pork/chicken) and other Caribbean dishes their unique flavour. Scotch bonnets are mostly used in West African, Antiguan, Kittitian/Nevisian, Anguilan, Dominican, St. Lucian, St Vincentian, Grenadian, Trinidadian, Jamaican, Barbadian, Guyanese, Surinamese, Haitian and Cayman cuisines and pepper sauces, though they often show up in other Caribbean recipes. It is also used in Costa Rica and Panama for Caribbean-styled recipes such as rice and beans, Rondón, saus, beef patties, and Ceviche.\r\n\r\nFresh, ripe Scotch bonnets can change from green to yellow to scarlet red, however many other breeds of this pepper can ripen to orange, yellow, peach, or even a chocolate brown.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3840.png
 20	Haddock	A saltwater fish that is commonly found in the North Atlantic and is often used in cooking due to its mild, slightly sweet flavor and firm texture.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3803.png
 21	Madras Paste	Madras paste is a blend of spices commonly used in Indian cuisine, particularly in dishes from the Madras region. It typically includes ingredients such as coriander, cumin, turmeric, and chili peppers, and is often used as a marinade or seasoning for meat, fish, or vegetables.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e371a.png
@@ -802,7 +787,6 @@ COPY public.ingredients (id, name, "desc", img) FROM stdin;
 425	Bicarbonate Of Soda	Sodium bicarbonate, commonly known as baking soda, is a chemical compound with the formula NaHCO3. It is a salt composed of a sodium cation (Na+) and a bicarbonate anion (HCO3−). Sodium bicarbonate is a white solid that is crystalline, but often appears as a fine powder. It has a slightly salty, alkaline taste resembling that of washing soda (sodium carbonate). The natural mineral form is nahcolite. It is a component of the mineral natron and is found dissolved in many mineral springs.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3670.png
 426	Heavy Cream	Heavy cream, also known as whipping cream, is a type of dairy product that has a high fat content. It is commonly used in baking, cooking, and as a topping for desserts like fruit and ice cream.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e36fc.png
 427	Fettuccine	A type of pasta that is long and flat, wider than linguine but narrower than tagliatelle.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e37a2.png
-428	Lamb Kidney	An organ meat that is commonly used in traditional British dishes such as steak and kidney pie, and is known for its distinct flavor and texture.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3801.png
 429	Bread Rolls	A roll is a small, usually round or oblong individual loaf of bread served as a meal accompaniment (eaten plain or with butter) A roll can be served and eaten whole or cut transversely and dressed with filling between the two halves. Rolls are also commonly used to make sandwiches similar to those produced using slices of bread. They are found in most cuisines all over the world. In the Deipnosophistae, the author Athenaeus (c. 170 – c. 230) describes some of the bread, cakes, and pastries available in the Classical world. Among the breads mentioned are griddle cakes, honey-and-oil bread, mushroom-shaped loaves covered in poppy seeds, and the military specialty of rolls baked on a spit.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3870.png
 430	Cocoa	A powder made from roasted and ground cocoa beans, commonly used in baking to add chocolate flavor to desserts.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e36a9.png
 431	Rocket	Also known as arugula or rucola, it is a leafy green vegetable with a distinctive peppery flavor commonly used in salads and sandwiches.	https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3758.png
@@ -950,7 +934,7 @@ COPY public.ingredients (id, name, "desc", img) FROM stdin;
 
 
 --
--- Data for Name: recipes; Type: TABLE DATA; Schema: public; Owner: backend
+-- Data for Name: recipes; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.recipes (id, title, category_id, area_id, user_id, instructions, description, "time", thumb, "createdAt", "updatedAt") FROM stdin;
@@ -1243,7 +1227,7 @@ COPY public.recipes (id, title, category_id, area_id, user_id, instructions, des
 
 
 --
--- Data for Name: recipes_ingredients; Type: TABLE DATA; Schema: public; Owner: backend
+-- Data for Name: recipes_ingredients; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.recipes_ingredients (recipe_id, ingredient_id, measure) FROM stdin;
@@ -4241,7 +4225,7 @@ COPY public.recipes_ingredients (recipe_id, ingredient_id, measure) FROM stdin;
 
 
 --
--- Data for Name: testimonials; Type: TABLE DATA; Schema: public; Owner: backend
+-- Data for Name: testimonials; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.testimonials (id, user_id, testimonial) FROM stdin;
@@ -4252,7 +4236,7 @@ COPY public.testimonials (id, user_id, testimonial) FROM stdin;
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: backend
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.users (id, email, name, password, avatar, token, "createdAt", "updatedAt") FROM stdin;
@@ -4263,7 +4247,15 @@ COPY public.users (id, email, name, password, avatar, token, "createdAt", "updat
 
 
 --
--- Data for Name: users_follows; Type: TABLE DATA; Schema: public; Owner: backend
+-- Data for Name: users_favorite_recipes; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.users_favorite_recipes (recipe_id, user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users_follows; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.users_follows (follower_user_id, followee_user_id) FROM stdin;
@@ -4271,49 +4263,49 @@ COPY public.users_follows (follower_user_id, followee_user_id) FROM stdin;
 
 
 --
--- Name: areas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: backend
+-- Name: areas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.areas_id_seq', 27, true);
 
 
 --
--- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: backend
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.categories_id_seq', 15, true);
 
 
 --
--- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: backend
+-- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.ingredients_id_seq', 574, true);
 
 
 --
--- Name: recipes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: backend
+-- Name: recipes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.recipes_id_seq', 285, true);
 
 
 --
--- Name: testimonials_id_seq; Type: SEQUENCE SET; Schema: public; Owner: backend
+-- Name: testimonials_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.testimonials_id_seq', 3, true);
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: backend
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.users_id_seq', 3, true);
 
 
 --
--- Name: areas areas_pkey; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: areas areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.areas
@@ -4321,7 +4313,7 @@ ALTER TABLE ONLY public.areas
 
 
 --
--- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.categories
@@ -4329,7 +4321,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- Name: ingredients ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: ingredients ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ingredients
@@ -4337,7 +4329,7 @@ ALTER TABLE ONLY public.ingredients
 
 
 --
--- Name: recipes_ingredients recipes_ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: recipes_ingredients recipes_ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.recipes_ingredients
@@ -4345,7 +4337,7 @@ ALTER TABLE ONLY public.recipes_ingredients
 
 
 --
--- Name: recipes recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: recipes recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.recipes
@@ -4353,7 +4345,7 @@ ALTER TABLE ONLY public.recipes
 
 
 --
--- Name: testimonials testimonials_pkey; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: testimonials testimonials_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.testimonials
@@ -4361,7 +4353,7 @@ ALTER TABLE ONLY public.testimonials
 
 
 --
--- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -4369,7 +4361,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users users_email_key1; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: users users_email_key1; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -4377,7 +4369,23 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users_follows users_follows_pkey; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: users users_email_key2; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key2 UNIQUE (email);
+
+
+--
+-- Name: users_favorite_recipes users_favorite_recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users_favorite_recipes
+    ADD CONSTRAINT users_favorite_recipes_pkey PRIMARY KEY (recipe_id, user_id);
+
+
+--
+-- Name: users_follows users_follows_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_follows
@@ -4385,7 +4393,7 @@ ALTER TABLE ONLY public.users_follows
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: backend
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -4393,23 +4401,23 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: recipes recipes_area_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
+-- Name: recipes recipes_area_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.recipes
-    ADD CONSTRAINT recipes_area_id_fkey FOREIGN KEY (area_id) REFERENCES public.areas(id);
+    ADD CONSTRAINT recipes_area_id_fkey FOREIGN KEY (area_id) REFERENCES public.areas(id) ON UPDATE CASCADE;
 
 
 --
--- Name: recipes recipes_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
+-- Name: recipes recipes_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.recipes
-    ADD CONSTRAINT recipes_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id);
+    ADD CONSTRAINT recipes_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id) ON UPDATE CASCADE;
 
 
 --
--- Name: recipes_ingredients recipes_ingredients_ingredient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
+-- Name: recipes_ingredients recipes_ingredients_ingredient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.recipes_ingredients
@@ -4417,7 +4425,7 @@ ALTER TABLE ONLY public.recipes_ingredients
 
 
 --
--- Name: recipes_ingredients recipes_ingredients_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
+-- Name: recipes_ingredients recipes_ingredients_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.recipes_ingredients
@@ -4425,23 +4433,39 @@ ALTER TABLE ONLY public.recipes_ingredients
 
 
 --
--- Name: recipes recipes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
+-- Name: recipes recipes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.recipes
-    ADD CONSTRAINT recipes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT recipes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE;
 
 
 --
--- Name: testimonials testimonials_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
+-- Name: testimonials testimonials_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.testimonials
-    ADD CONSTRAINT testimonials_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT testimonials_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE;
 
 
 --
--- Name: users_follows users_follows_followee_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
+-- Name: users_favorite_recipes users_favorite_recipes_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users_favorite_recipes
+    ADD CONSTRAINT users_favorite_recipes_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: users_favorite_recipes users_favorite_recipes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users_favorite_recipes
+    ADD CONSTRAINT users_favorite_recipes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: users_follows users_follows_followee_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_follows
@@ -4449,7 +4473,7 @@ ALTER TABLE ONLY public.users_follows
 
 
 --
--- Name: users_follows users_follows_follower_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
+-- Name: users_follows users_follows_follower_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_follows
