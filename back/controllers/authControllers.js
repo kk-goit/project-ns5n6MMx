@@ -104,3 +104,11 @@ export const getCurrent = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getUserById = async (req, res, next) => {
+  const user = authService.getUserById(req.params.id);
+  res.json({
+    name: user.name,
+    avatar: user.avatar,
+  });
+}

@@ -6,7 +6,7 @@ const recipesRouter = express.Router();
 
 recipesRouter.get('/', controllerWrapper(listRecipes));
 
-recipesRouter.use("/:id", controllerWrapper(getRecipeByIdController));
+recipesRouter.get("/:id", controllerWrapper(getRecipeByIdController));
 
 recipesRouter.use((req, res) => res.status(404).json({ message: "Not found" }));
 
