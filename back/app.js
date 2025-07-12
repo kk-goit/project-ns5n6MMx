@@ -1,6 +1,8 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+
+import profileRoutes from "./routes/profileRoutes.js";
 import authRouter from "./routes/authRouter.js";
 
 import "./db/sync.js";
@@ -18,6 +20,7 @@ app.use("/api/recipes", recipeRouter);
 
 app.use(express.static("public"));
 
+app.use("/api/profile", profileRoutes);
 app.use("/api/recipes", controllerWrapper(recipesRouter));
 app.use("/api/auth", authRouter);
 app.use('/api', controllerWrapper(apiRouter));
