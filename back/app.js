@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import authRouter from "./routes/authRouter.js";
 
+
 import "./db/sync.js";
 import recipeRouter from "./routers/recipeRouter.js";
 import controllerWrapper from "./decorators/controllerWrapper.js";

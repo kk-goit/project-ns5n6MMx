@@ -59,7 +59,7 @@ const Recipe = sequelize.define("recipes", {
 const RecipeIngredient = sequelize.define(
   "recipes_ingredients",
   {
-    reciep_id: {
+    recipe_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -88,11 +88,11 @@ const RecipeIngredient = sequelize.define(
 );
 
 Recipe.hasMany(RecipeIngredient, {
-  foreignKey: "reciep_id",
+  foreignKey: "recipe_id",
   as: "ingredients",
 });
 RecipeIngredient.belongsTo(Recipe, {
-  foreignKey: "reciep_id",
+  foreignKey: "recipe_id",
   as: "recipe",
 });
 RecipeIngredient.belongsTo(Ingredient, {
@@ -101,10 +101,11 @@ RecipeIngredient.belongsTo(Ingredient, {
 });
 
 
+
 const RecipeUserFaivorite = sequelize.define(
   "users_favorite_recipes",
   {
-    reciep_id: {
+    recipe_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -127,5 +128,14 @@ const RecipeUserFaivorite = sequelize.define(
     timestamps: false,
   }
 );
+
+Recipe.hasMany(RecipeUserFaivorite, {
+  foreignKey: "recipe_id",
+  as: "users_favorite_recipes"
+});
+RecipeUserFaivorite.belongsTo(Recipe, {
+  foreignKey: "recipe_id",
+  as: "recipe"
+});
 
 export { Recipe, RecipeIngredient, RecipeUserFaivorite };
