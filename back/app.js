@@ -7,6 +7,7 @@ import authRouter from "./routes/authRouter.js";
 import followsRouter from "./routes/follows.js";
 import recipeRouter from "./routers/recipeRouter.js";
 
+
 import "./db/sync.js";
 
 import controllerWrapper from "./decorators/controllerWrapper.js";

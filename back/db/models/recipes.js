@@ -60,30 +60,29 @@ const Recipe = sequelize.define(
 );
 
 const RecipeIngredient = sequelize.define(
-    "recipes_ingredients",
-    {
-        recipe_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            references: {
-                model: Recipe,
-                key: "id",
-            },
-        },
-        ingredient_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            references: {
-                model: Ingredient,
-                key: "id",
-            },
-        },
-        measure: {
-            type: DataTypes.STRING(128),
-            allowNull: false,
-        },
+  "recipes_ingredients",
+  {
+    recipe_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: Recipe,
+        key: "id",
+      },
+    },
+    ingredient_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: Ingredient,
+        key: "id",
+      },
+    },
+    measure: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
     },
     {
         timestamps: false,
@@ -93,7 +92,7 @@ const RecipeIngredient = sequelize.define(
 const RecipeUserFaivorite = sequelize.define(
   "users_favorite_recipes",
   {
-    reciep_id: {
+    recipe_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -116,6 +115,16 @@ const RecipeUserFaivorite = sequelize.define(
     timestamps: false,
   }
 );
+
+
+Recipe.hasMany(RecipeUserFaivorite, {
+  foreignKey: "recipe_id",
+  as: "users_favorite_recipes"
+});
+RecipeUserFaivorite.belongsTo(Recipe, {
+  foreignKey: "recipe_id",
+  as: "recipe"
+});
 
 
 Recipe.belongsTo(User, {foreignKey: "user_id", as: "user"});
