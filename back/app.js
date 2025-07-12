@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import authRouter from "./routes/authRouter.js";
+import followRouter from "./routes/followRouter.js";
 
 import "./db/sync.js";
 import recipeRouter from "./routers/recipeRouter.js";
@@ -20,7 +21,8 @@ app.use(express.static("public"));
 
 app.use("/api/recipes", controllerWrapper(recipesRouter));
 app.use("/api/auth", authRouter);
-app.use('/api', controllerWrapper(apiRouter));
+app.use("/api/follow", followRouter);
+app.use("/api", controllerWrapper(apiRouter));
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
