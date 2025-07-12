@@ -24,4 +24,15 @@ const Testimonial = sequelize.define(
   }
 );
 
+
+Testimonial.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user',
+});
+
+User.hasMany(Testimonial, {
+    foreignKey: 'user_id',
+    as: 'testimonials',
+});
+
 export { Testimonial };

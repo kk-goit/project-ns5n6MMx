@@ -1,5 +1,10 @@
-node_modules
 .env
-.vscode/
+.idea
+.vscode
+pgdata/*
 .DS_Store
-.idea/
+back/.DS_Store
+back/.env
+back/node_modules/
+db/.DS_Store
+db/pgdata/*

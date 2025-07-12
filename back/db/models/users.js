@@ -66,8 +66,8 @@ User.belongsToMany(
   {
     through: UserFollow,
     as: 'followers',
-    foreignKey: 'follower_user_id',
-    otherKey: 'followee_user_id'
+    foreignKey: 'followee_user_id',
+    otherKey: 'follower_user_id'
   }
 );
 User.belongsToMany(
@@ -75,8 +75,8 @@ User.belongsToMany(
   {
     through: UserFollow,
     as: 'followees',
-    foreignKey: 'followee_user_id',
-    otherKey: 'follower_user_id'
+    foreignKey: 'follower_user_id',
+    otherKey: 'followee_user_id'
   }
 );
 
