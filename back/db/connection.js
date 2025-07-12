@@ -3,6 +3,10 @@ import {} from "dotenv/config"; // For .env variables to work
 
 console.log(process.env);
 
+const ssl = {
+  require: true,
+  rejectUnauthorized: false,
+};
 const sequelize = new Sequelize({
   dialect: process.env.DATABASE_DIALECT,
   username: process.env.DATABASE_USERNAME,
@@ -11,10 +15,7 @@ const sequelize = new Sequelize({
   database: process.env.DATABASE_NAME,
   port: process.env.DATABASE_PORT,
   dialectOptions: {
-    ssl: {
-      require: process.env.DATABASE_SSL === "yes" ? true : false,
-      rejectUnauthorized: false,
-    },
+    ssl: process.env.DATABASE_SSL === "yes" ? ssl : false,
   },
 });
 
