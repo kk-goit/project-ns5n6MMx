@@ -2,6 +2,11 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 import profileRoutes from "./routes/profileRoutes.js";
 import authRouter from "./routes/authRouter.js";
 import followRouter from "./routes/followRouter.js";
@@ -23,6 +28,12 @@ const app = express();
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const openapiDocument = YAML.load(path.join(__dirname, 'docs', 'openapi.yaml'));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDocument));
+
 
 app.use("/api/recipes", recipeRouter);
 
