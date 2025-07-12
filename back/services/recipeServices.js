@@ -7,7 +7,7 @@ import { Category } from "../db/models/categories.js";
 import { Area } from "../db/models/areas.js";
 import { Ingredient } from "../db/models/ingredients.js";
 import { User } from "../db/models/users.js";
-import HttpError from "../helpers/HttpError.js";
+import HttpError from "../errors/httpError.js";
 
 
 export async function getAllRecipes() {
@@ -39,7 +39,7 @@ export async function getRecipeById(recipeId) {
       { model: User, as: "user", attributes: ["id", "name", "avatar"] },
     ],
   });
-  if (!recipe) throw HttpError(404, "Recipe not found");
+  if (!recipe) throw new HttpError(404, "Recipe not found");
   return recipe;
 }
 
@@ -82,12 +82,12 @@ export async function addRecipe(
 
 export async function addFavorite(userId, recipeId) {
   const recipe = await Recipe.findByPk(recipeId);
-  if (!recipe) throw HttpError(404, "Recipe not found");
+  if (!recipe) throw new HttpError(404, "Recipe not found");
 
   const [fav, created] = await RecipeUserFavorite.findOrCreate({
     where: { user_id: userId, reciep_id: recipeId },
   });
-  if (!created) throw HttpError(400, "Already in favorites");
+  if (!created) throw new HttpError(400, "Already in favorites");
   return fav;
 }
 
@@ -95,7 +95,7 @@ export async function removeFavorite(userId, recipeId) {
   const deleted = await RecipeUserFavorite.destroy({
     where: { user_id: userId, reciep_id: recipeId },
   });
-  if (!deleted) throw HttpError(404, "Favorite not found");
+  if (!deleted) throw new HttpError(404, "Favorite not found");
 }
 
 export async function listFavorites(userId) {

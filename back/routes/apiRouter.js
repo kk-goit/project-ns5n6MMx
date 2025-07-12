@@ -1,21 +1,24 @@
 import express from 'express';
+import followRouter from "./followRouter.js";
+import recipeRouter from "./recipeRouter.js";
 import categoriesRouter from './categoriesRouter.js';
 import areasRouter from './areasRouter.js';
 import ingredientsRouter from './ingredientsRouter.js';
 import testimonialsRouter from './testimonialsRouter.js';
 import controllerWrapper from '../decorators/controllerWrapper.js';
 import userRouter from './userRouter.js';
-import recipesRouter from "./recipesRouter.js";
 
 const apiRouter = express.Router();
 
-apiRouter.use('/categories', controllerWrapper(categoriesRouter));
-apiRouter.use('/areas', controllerWrapper(areasRouter));
-apiRouter.use('/ingredients', controllerWrapper(ingredientsRouter));
-apiRouter.use('/testimonials', controllerWrapper(testimonialsRouter));
-apiRouter.use('/users', userRouter);
-apiRouter.use('/recipes', controllerWrapper(recipesRouter));
+apiRouter.use('/categories', categoriesRouter);
+apiRouter.use('/areas', areasRouter);
+apiRouter.use('/ingredients', ingredientsRouter);
+apiRouter.use('/testimonials', testimonialsRouter);
 
-apiRouter.use((req, res) => res.status(404).json({ message: "Not found" }));
+apiRouter.use('/users', userRouter);
+apiRouter.use('/recipes', recipeRouter);
+apiRouter.use("/follow", followRouter);
+
+apiRouter.use((_, res) => res.status(404).json({ message: "Not found" }));
 
 export default apiRouter;

@@ -8,7 +8,7 @@ import {
 } from "../services/recipeServices.js";
 import { Category } from "../db/models/categories.js";
 import { Area } from "../db/models/areas.js";
-import HttpError from "../helpers/HttpError.js";
+import HttpError from "../errors/httpError.js";
 
 // ——— READ Controllers ———
 export const getAllRecipesController = async (req, res, next) => {
@@ -47,7 +47,7 @@ export async function addRecipeController(req, res, next) {
     const categoryObj = await Category.findOne({ where: { name: category } });
     const areaObj = await Area.findOne({ where: { name: area } });
     if (!categoryObj || !areaObj) {
-      throw HttpError(400, "Invalid category or area");
+      throw new HttpError(400, "Invalid category or area");
     }
     const newRecipe = await _addRecipe(
       title,

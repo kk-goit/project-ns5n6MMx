@@ -1,5 +1,5 @@
 import followService from "../services/followServices.js";
-import HttpError from "../helpers/HttpError.js";
+import HttpError from "../errors/httpError.js";
 
 // Get users who follow the authenticated user's profile
 export const getFollowers = async (req, res, next) => {
@@ -46,13 +46,13 @@ export const followUser = async (req, res, next) => {
     const { followeeId } = req.params;
 
     if (followerId === parseInt(followeeId)) {
-      throw HttpError(400, "Cannot follow yourself");
+      throw new HttpError(400, "Cannot follow yourself");
     }
 
     const result = await followService.followUser(followerId, followeeId);
 
     if (!result) {
-      throw HttpError(404, "User not found");
+      throw new HttpError(404, "User not found");
     }
 
     res.status(201).json({
@@ -72,7 +72,7 @@ export const unfollowUser = async (req, res, next) => {
     const result = await followService.unfollowUser(followerId, followeeId);
 
     if (!result) {
-      throw HttpError(404, "Follow relationship not found");
+      throw new HttpError(404, "Follow relationship not found");
     }
 
     res.json({
