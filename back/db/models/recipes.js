@@ -84,9 +84,10 @@ const RecipeIngredient = sequelize.define(
       type: DataTypes.STRING(128),
       allowNull: false,
     },
-    {
-        timestamps: false,
-    }
+  },
+  {
+      timestamps: false,
+  }
 );
 
 const RecipeUserFaivorite = sequelize.define(
