@@ -172,7 +172,7 @@ ALTER SEQUENCE public.recipes_id_seq OWNED BY public.recipes.id;
 --
 
 CREATE TABLE public.recipes_ingredients (
-    reciep_id integer NOT NULL,
+    recipe_id integer NOT NULL,
     ingredient_id integer NOT NULL,
     measure character varying(128) NOT NULL
 );
@@ -1246,7 +1246,7 @@ COPY public.recipes (id, title, category_id, area_id, user_id, instructions, des
 -- Data for Name: recipes_ingredients; Type: TABLE DATA; Schema: public; Owner: backend
 --
 
-COPY public.recipes_ingredients (reciep_id, ingredient_id, measure) FROM stdin;
+COPY public.recipes_ingredients (recipe_id, ingredient_id, measure) FROM stdin;
 1	340	175g
 1	521	175g
 1	365	140g
@@ -4341,7 +4341,7 @@ ALTER TABLE ONLY public.ingredients
 --
 
 ALTER TABLE ONLY public.recipes_ingredients
-    ADD CONSTRAINT recipes_ingredients_pkey PRIMARY KEY (reciep_id, ingredient_id);
+    ADD CONSTRAINT recipes_ingredients_pkey PRIMARY KEY (recipe_id, ingredient_id);
 
 
 --
@@ -4417,11 +4417,11 @@ ALTER TABLE ONLY public.recipes_ingredients
 
 
 --
--- Name: recipes_ingredients recipes_ingredients_reciep_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
+-- Name: recipes_ingredients recipes_ingredients_recipe_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: backend
 --
 
 ALTER TABLE ONLY public.recipes_ingredients
-    ADD CONSTRAINT recipes_ingredients_reciep_id_fkey FOREIGN KEY (reciep_id) REFERENCES public.recipes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT recipes_ingredients_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES public.recipes(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

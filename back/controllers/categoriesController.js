@@ -1,5 +1,7 @@
 import categoriesServices from '../services/categoriesServices.js';
+import {paginate} from "../utils/paginationService.js";
 
-export const listCategories = async (_, res) => {
-    res.json(await categoriesServices.listCategories());
+export const listCategories = async (req, res) => {
+    let categories = await categoriesServices.listCategories();
+    res.json(paginate(categories, req));
 };
