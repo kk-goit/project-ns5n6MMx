@@ -16,11 +16,13 @@ apiRouter.use('/areas', controllerWrapper(areasRouter));
 apiRouter.use('/ingredients', controllerWrapper(ingredientsRouter));
 apiRouter.use('/testimonials', controllerWrapper(testimonialsRouter));
 
+<<<<<<< Updated upstream
+apiRouter.use((req, res) => res.status(404).json({ message: "Not found" }));
+=======
 apiRouter.use('/users', controllerWrapper(userRouter));
 apiRouter.use('/recipe', controllerWrapper(recipeRouter));
 apiRouter.use("/recipes", controllerWrapper(recipesRouter));
 apiRouter.use("/follow", controllerWrapper(followRouter));
-
-apiRouter.use((req, res) => res.status(404).json({ message: "Not found" }));
+>>>>>>> Stashed changes
 
 export default apiRouter;

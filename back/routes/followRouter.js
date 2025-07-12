@@ -16,9 +16,9 @@ followRouter.get("/followers", authenticate, getFollowers);
 followRouter.get("/following", authenticate, getFollowing);
 
 // Follow a user
-followRouter.post("/follow/:followeeId", authenticate, followUser);
+followRouter.post("/:followeeId", authenticate, followUser);
 
 // Unfollow a user
-followRouter.delete("/unfollow/:followeeId", authenticate, unfollowUser);
+followRouter.delete("/:followeeId", authenticate, unfollowUser);
 
 export default followRouter;
