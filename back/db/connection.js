@@ -11,7 +11,10 @@ const sequelize = new Sequelize({
   database: process.env.DATABASE_NAME,
   port: process.env.DATABASE_PORT,
   dialectOptions: {
-    ssl: process.env.DATABASE_SSL === "yes"? true : false,
+    ssl: {
+      require: process.env.DATABASE_SSL === "yes" ? true : false,
+      rejectUnauthorized: false,
+    },
   },
 });
 
