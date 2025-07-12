@@ -1,5 +1,6 @@
 import express from 'express';
-import { removeRecipeHandler } from '../controllers/recipesController.js';
+import controllerWrapper from '../decorators/controllerWrapper.js';
+import { removeRecipeHandler, listRecipes, getRecipeByIdController } from '../controllers/recipesController.js';
 import { paramsValidationMiddleware } from '../middlewares/validationMiddleware.js';
 import { paramsIdSchema } from '../schemas/paramsIdSchema.js';
 import { getOwnRecipesHandler } from '../controllers/recipesController.js';
@@ -13,5 +14,11 @@ const recipesRouter = express.Router()
         // TODO: need to add auth middleware
         getOwnRecipesHandler
     );
+
+recipesRouter.get('/', controllerWrapper(listRecipes));
+
+recipesRouter.get("/:id", controllerWrapper(getRecipeByIdController));
+
+recipesRouter.use((req, res) => res.status(404).json({ message: "Not found" }));
 
 export default recipesRouter;
