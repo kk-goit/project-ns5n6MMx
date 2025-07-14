@@ -5,7 +5,6 @@ import categoriesRouter from './categoriesRouter.js';
 import areasRouter from './areasRouter.js';
 import ingredientsRouter from './ingredientsRouter.js';
 import testimonialsRouter from './testimonialsRouter.js';
-import controllerWrapper from '../decorators/controllerWrapper.js';
 import userRouter from './userRouter.js';
 
 const apiRouter = express.Router();

@@ -8,10 +8,11 @@ info:
         url: https://opensource.org/license/MIT
 
 servers:
-    - url: https://test-xe0u.onrender.com/api
-      description: Foodies server
     - url: http://127.0.0.1:3000/api
       description: Local development server
+    - url: https://test-xe0u.onrender.com/api
+      description: Foodies server
+
 
 tags:
     - name: users
@@ -122,13 +123,13 @@ paths:
                     $ref: '#/components/responses/notAuthorisedResponse'
                 '500':
                     $ref: '#/components/responses/serverErrorResponse'
-    /users/current:
+    /users/me:
         get:
             security:
                 - bearerAuth: []
             tags:
                 - users
-            summary: Refresh user
+            summary: current user data
             operationId: refreshUser
             responses:
                 '200':
@@ -180,7 +181,7 @@ paths:
                     $ref: '#/components/responses/notAuthorisedResponse'
                 '500':
                     $ref: '#/components/responses/serverErrorResponse'
-    /users/followers:
+    /users/{id}/followers:
         get:
             security:
                 - bearerAuth: []
@@ -189,12 +190,7 @@ paths:
             summary: Get list of users following a user
             operationId: getFollowers
             parameters:
-                - name: id
-                  in: query
-                  description: User id (if not provided, current user is used)
-                  required: false
-                  schema:
-                      type: string
+                - $ref: '#/components/parameters/id_path'
                 - $ref: '#/components/parameters/page_query'
                 - $ref: '#/components/parameters/limit_query'
             responses:
@@ -262,7 +258,7 @@ paths:
     /users/{id}:
         get:
             security:
-                - bearerAuth: []
+                - none: []
             tags:
                 - users
             summary: Get a user information
@@ -352,13 +348,13 @@ paths:
                     $ref: '#/components/responses/notAuthorisedResponse'
                 '500':
                     $ref: '#/components/responses/serverErrorResponse'
-    /recipes/owner/{id}:
+    /recipes/my:
         get:
             security:
                 - bearerAuth: []
             tags:
                 - recipes
-            summary: Get recipes by owner
+            summary: Get recipes by current user
             operationId: listRecipesByOwner
             parameters:
                 - $ref: '#/components/parameters/id_path'
@@ -431,7 +427,7 @@ components:
             in: path
             required: true
             schema:
-                type: string
+                type: integer
         page_query:
             name: page
             in: query
@@ -449,25 +445,25 @@ components:
             in: query
             required: false
             schema:
-                type: string
+                type: integer
         area_query:
             name: area
             in: query
             required: false
             schema:
-                type: string
+                type: integer
         ingredients_query:
             name: ingredients
             in: query
             required: false
             schema:
-                type: string
+                type: integer
         owner_query:
             name: owner
             in: query
             required: false
             schema:
-                type: string
+                type: integer
     requestBodies:
         createRecipeRequest:
             description: Create recipe request
@@ -797,9 +793,6 @@ components:
                     type: string
 
     securitySchemes:
-        none:
-            type: http
-            scheme: none
         bearerAuth: # arbitrary name for the security scheme
             type: http
             scheme: bearer

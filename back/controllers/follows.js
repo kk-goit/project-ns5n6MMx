@@ -3,7 +3,7 @@ import { User, UserFollow } from "../db/models/users.js";
 // Підписатися на користувача
 export const followUser = async (req, res, next) => {
   try {
-    const followerId = parseInt(req.body.follower_user_id);
+    const followerId = parseInt(req.user.id);
     const followeeId = parseInt(req.params.id);
 
     if (followerId === followeeId) {
@@ -24,11 +24,11 @@ export const followUser = async (req, res, next) => {
 };
 
 // Скасувати підписку
-// DELETE /api/users/:followeeId/unfollow/:followerId
+// DELETE /api/users/followees/:id
 export const unfollowUser = async (req, res, next) => {
   try {
-    const followeeId = parseInt(req.params.followeeId);
-    const followerId = parseInt(req.params.followerId);
+    const followeeId = parseInt(req.params.id);
+    const followerId = parseInt(req.user.id);
 
     const deleted = await UserFollow.destroy({
       where: {
@@ -69,7 +69,7 @@ export const getFollowers = async (req, res, next) => {
 // Отримати всіх followees (на кого підписаний користувач)
 export const getFollowing = async (req, res, next) => {
   try {
-    const userId = parseInt(req.params.id);
+    const userId = parseInt(req.user.id);
 
     const user = await User.findByPk(userId, {
       include: {
