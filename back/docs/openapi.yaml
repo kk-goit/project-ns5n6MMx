@@ -1,0 +1,806 @@
+openapi: 3.0.3
+info:
+    title: Foodies API
+    version: '0.3.1'
+    description: 5th Element :: Foodies API
+    license:
+        name: MIT License
+        url: https://opensource.org/license/MIT
+
+servers:
+    - url: https://test-xe0u.onrender.com/api
+      description: Foodies server
+    - url: http://127.0.0.1:3000/api
+      description: Local development server
+
+tags:
+    - name: users
+      description: Operations with User
+    - name: recipes
+      description: Operations with Recipes
+    - name: categories
+      description: Operations with Categories
+    - name: areas
+      description: Operations with Areas
+    - name: ingredients
+      description: Operations with Ingredients
+    - name: testimonials
+      description: Operations with Testimonials
+
+paths:
+    /categories:
+        get:
+            security:
+                - none: []
+            tags:
+                - categories
+            summary: Get all categories
+            operationId: getCategories
+            responses:
+                '200':
+                    $ref: '#/components/responses/categoriesResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /areas:
+        get:
+            security:
+                - none: []
+            tags:
+                - areas
+            summary: Get all areas
+            operationId: getAreas
+            responses:
+                '200':
+                    $ref: '#/components/responses/areasResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /ingredients:
+        get:
+            security:
+                - none: []
+            tags:
+                - ingredients
+            summary: Get all ingredients
+            operationId: getIngredients
+            responses:
+                '200':
+                    $ref: '#/components/responses/ingredientsResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /testimonials:
+        get:
+            security:
+                - none: []
+            tags:
+                - testimonials
+            summary: Get all testimonials
+            operationId: getTestimonials
+            responses:
+                '200':
+                    $ref: '#/components/responses/testimonialsResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /users/register:
+        post:
+            security:
+                - none: []
+            tags:
+                - users
+            summary: Register user
+            operationId: registerUser
+            requestBody:
+                $ref: '#/components/requestBodies/registerRequest'
+            responses:
+                '201':
+                    $ref: '#/components/responses/registerResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /users/login:
+        post:
+            security:
+                - none: []
+            tags:
+                - users
+            summary: Login user
+            operationId: loginUser
+            requestBody:
+                $ref: '#/components/requestBodies/loginRequest'
+            responses:
+                '200':
+                    $ref: '#/components/responses/authorisedResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /users/current:
+        get:
+            security:
+                - bearerAuth: []
+            tags:
+                - users
+            summary: Refresh user
+            operationId: refreshUser
+            responses:
+                '200':
+                    description: Successfully authorised
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/fullUser'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /users/logout:
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - users
+            summary: Logout user
+            operationId: logoutUser
+            responses:
+                '204':
+                    description: No content
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /users/avatar:
+        patch:
+            security:
+                - bearerAuth: []
+            tags:
+                - users
+            summary: Upload avatar
+            operationId: uploadAvatar
+            requestBody:
+                $ref: '#/components/requestBodies/avatarRequest'
+            responses:
+                '200':
+                    description: Successfully updated avatar
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    avatar:
+                                        type: string
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /users/followers:
+        get:
+            security:
+                - bearerAuth: []
+            tags:
+                - users
+            summary: Get list of users following a user
+            operationId: getFollowers
+            parameters:
+                - name: id
+                  in: query
+                  description: User id (if not provided, current user is used)
+                  required: false
+                  schema:
+                      type: string
+                - $ref: '#/components/parameters/page_query'
+                - $ref: '#/components/parameters/limit_query'
+            responses:
+                '200':
+                    $ref: '#/components/responses/followersResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /users/followees:
+        get:
+            security:
+                - bearerAuth: []
+            tags:
+                - users
+            summary: Get list of people authorized user is following
+            operationId: getFollowees
+            parameters:
+                - $ref: '#/components/parameters/page_query'
+                - $ref: '#/components/parameters/limit_query'
+            responses:
+                '200':
+                    $ref: '#/components/responses/followeesResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /users/followees/{id}:
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - users
+            summary: Follow a user
+            operationId: follow
+            parameters:
+                - $ref: '#/components/parameters/id_path'
+            responses:
+                '204':
+                    description: No content
+                '400':
+                    $ref: '#/components/responses/invalidRequestResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+        delete:
+            security:
+                - bearerAuth: []
+            tags:
+                - users
+            summary: Unfollow a user
+            operationId: unfollow
+            parameters:
+                - $ref: '#/components/parameters/id_path'
+            responses:
+                '204':
+                    description: No content
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '404':
+                    $ref: '#/components/responses/notFoundResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /users/{id}:
+        get:
+            security:
+                - bearerAuth: []
+            tags:
+                - users
+            summary: Get a user information
+            operationId: getUserInformation
+            parameters:
+                - $ref: '#/components/parameters/id_path'
+            responses:
+                '200':
+                    $ref: '#/components/responses/userResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '404':
+                    $ref: '#/components/responses/notFoundResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+
+    /recipes:
+        get:
+            security:
+                - none: []
+            tags:
+                - recipes
+            summary: Get all or filter recipes
+            operationId: listRecipes
+            parameters:
+                - $ref: '#/components/parameters/page_query'
+                - $ref: '#/components/parameters/limit_query'
+                - $ref: '#/components/parameters/category_query'
+                - $ref: '#/components/parameters/area_query'
+                - $ref: '#/components/parameters/ingredients_query'
+                - $ref: '#/components/parameters/owner_query'
+            responses:
+                '200':
+                    $ref: '#/components/responses/recipeSearchResponse'
+                '400':
+                    $ref: '#/components/responses/invalidRequestResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - recipes
+            summary: Create a recipe
+            operationId: createRecipe
+            requestBody:
+                $ref: '#/components/requestBodies/createRecipeRequest'
+            responses:
+                '201':
+                    $ref: '#/components/responses/recipeInformationResponse'
+                '400':
+                    $ref: '#/components/responses/invalidRequestResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /recipes/popular:
+        get:
+            security:
+                - none: []
+            tags:
+                - recipes
+            summary: Get popular recipes
+            operationId: listPopularRecipes
+            responses:
+                '200':
+                    $ref: '#/components/responses/recipeSearchResponse'
+                '400':
+                    $ref: '#/components/responses/invalidRequestResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /recipes/favorites:
+        get:
+            security:
+                - bearerAuth: []
+            tags:
+                - recipes
+            summary: Get my favorite recipes
+            operationId: listMyFavoriteRecipes
+            parameters:
+                - $ref: '#/components/parameters/page_query'
+                - $ref: '#/components/parameters/limit_query'
+            responses:
+                '200':
+                    $ref: '#/components/responses/recipeSearchResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /recipes/owner/{id}:
+        get:
+            security:
+                - bearerAuth: []
+            tags:
+                - recipes
+            summary: Get recipes by owner
+            operationId: listRecipesByOwner
+            parameters:
+                - $ref: '#/components/parameters/id_path'
+                - $ref: '#/components/parameters/page_query'
+                - $ref: '#/components/parameters/limit_query'
+            responses:
+                '200':
+                    $ref: '#/components/responses/recipeSearchResponse'
+                '400':
+                    $ref: '#/components/responses/invalidRequestResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /recipes/{id}:
+        get:
+            security:
+                - none: []
+            tags:
+                - recipes
+            summary: Get information about a recipe
+            operationId: getRecipe
+            parameters:
+                - $ref: '#/components/parameters/id_path'
+            responses:
+                '200':
+                    $ref: '#/components/responses/recipeInformationResponse'
+                '404':
+                    $ref: '#/components/responses/notFoundResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+    /recipes/{id}/favorite:
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - recipes
+            summary: Add recipe to favorite
+            operationId: addToFavoriteRecipes
+            parameters:
+                - $ref: '#/components/parameters/id_path'
+            responses:
+                '201':
+                    $ref: '#/components/responses/recipeInformationResponse'
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+        delete:
+            security:
+                - bearerAuth: []
+            tags:
+                - recipes
+            summary: Remove recipe from favorite
+            operationId: removeFavoriteRecipes
+            parameters:
+                - $ref: '#/components/parameters/id_path'
+            responses:
+                '204':
+                    description: No content
+                '401':
+                    $ref: '#/components/responses/notAuthorisedResponse'
+                '404':
+                    $ref: '#/components/responses/notFoundResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
+
+components:
+    parameters:
+        id_path:
+            name: id
+            in: path
+            required: true
+            schema:
+                type: string
+        page_query:
+            name: page
+            in: query
+            required: false
+            schema:
+                type: integer
+        limit_query:
+            name: limit
+            in: query
+            required: false
+            schema:
+                type: integer
+        category_query:
+            name: category
+            in: query
+            required: false
+            schema:
+                type: string
+        area_query:
+            name: area
+            in: query
+            required: false
+            schema:
+                type: string
+        ingredients_query:
+            name: ingredients
+            in: query
+            required: false
+            schema:
+                type: string
+        owner_query:
+            name: owner
+            in: query
+            required: false
+            schema:
+                type: string
+    requestBodies:
+        createRecipeRequest:
+            description: Create recipe request
+            required: true
+            content:
+                multipart/form-data:
+                    schema:
+                        type: object
+                        properties:
+                            title:
+                                type: string
+                            category:
+                                type: string
+                            area:
+                                type: string
+                            instructions:
+                                type: string
+                            description:
+                                type: string
+                            thumb:
+                                type: string
+                                format: binary
+                            time:
+                                type: string
+                            ingredients:
+                                type: array
+                                format: json
+                                description: 'Array of objects in formatted as JSON: [ { "id": "string", "measure": "string" } ]'
+                                items:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: string
+                                        measure:
+                                            type: string
+        avatarRequest:
+            description: Upload avatar request
+            required: true
+            content:
+                multipart/form-data:
+                    schema:
+                        type: object
+                        properties:
+                            avatar:
+                                type: string
+                                format: binary
+        registerRequest:
+            description: Register user request
+            required: true
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            name:
+                                type: string
+                            email:
+                                type: string
+                            password:
+                                type: string
+        loginRequest:
+            description: Login user request
+            required: true
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            email:
+                                type: string
+                            password:
+                                type: string
+    responses:
+        recipeSearchResponse:
+            description: Successfully received recipes
+            content:
+                application/json:
+                    schema:
+                        allOf:
+                            - $ref: '#/components/schemas/pagination'
+                            - type: object
+                              properties:
+                                  recipes:
+                                      type: array
+                                      items:
+                                          allOf:
+                                              - $ref: '#/components/schemas/recipeShort'
+                                              - type: object
+                                                properties:
+                                                    owner:
+                                                        type: object
+                                                        properties:
+                                                            id:
+                                                                type: string
+                                                            name:
+                                                                type: string
+                                                            avatar:
+                                                                type: string
+        recipeInformationResponse:
+            description: Successfully received recipe
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/recipeFull'
+        followersResponse:
+            description: Successfully logged in
+            content:
+                application/json:
+                    schema:
+                        allOf:
+                            - $ref: '#/components/schemas/pagination'
+                            - type: object
+                              properties:
+                                  followers:
+                                      $ref: '#/components/schemas/followexsList'
+        followeesResponse:
+            description: Successfully logged in
+            content:
+                application/json:
+                    schema:
+                        allOf:
+                            - $ref: '#/components/schemas/pagination'
+                            - type: object
+                              properties:
+                                  followees:
+                                      $ref: '#/components/schemas/followexsList'
+        userResponse:
+            description: User information
+            content:
+                application/json:
+                    schema:
+                        allOf:
+                            - $ref: '#/components/schemas/fullUser'
+                            - type: object
+                              properties:
+                                  followers:
+                                      type: integer
+                                  followeers:
+                                      type: integer
+                                  recipes:
+                                      type: integer
+                                  favoriteRecipes:
+                                      type: integer
+        registerResponse:
+            description: Successfully registered
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            user:
+                                $ref: '#/components/schemas/fullUser'
+        authorisedResponse:
+            description: Successfully authorised
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            token:
+                                type: string
+                            user:
+                                $ref: '#/components/schemas/fullUser'
+        categoriesResponse:
+            description: Successfully received all categories
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/simpleObject'
+        areasResponse:
+            description: Successfully received all areas
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/simpleObject'
+        testimonialsResponse:
+            description: Successfully received all testimonials
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/testimonials'
+        ingredientsResponse:
+            description: Successfully received all ingredients
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/ingredientShort'
+        invalidRequestResponse:
+            description: Invalid request
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/error'
+        notFoundResponse:
+            description: Not found
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/error'
+        serverErrorResponse:
+            description: Internal Server Error
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/error'
+        notAuthorisedResponse:
+            description: Not Authorised
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/error'
+
+    schemas:
+        followexsList:
+            type: array
+            items:
+                allOf:
+                    - $ref: '#/components/schemas/fullUser'
+                    - type: object
+                      properties:
+                          recipeCount:
+                              type: integer
+                          recipes:
+                              type: array
+                              items:
+                                  type: object
+                                  properties:
+                                      id:
+                                          type: string
+                                      thumb:
+                                          type: string
+        pagination:
+            type: object
+            properties:
+                page:
+                    type: integer
+                limit:
+                    type: integer
+                pages:
+                    type: integer
+                total:
+                    type: integer
+                    description: Total count of items
+        simpleObject:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+        testimonials:
+            type: object
+            properties:
+                id:
+                    type: string
+                owner:
+                    $ref: '#/components/schemas/simpleObject'
+                testimonial:
+                    type: string
+        ingredientShort:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                image:
+                    type: string
+        fullUser:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                email:
+                    type: string
+                avatar:
+                    type: string
+        recipeShort:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                thumb:
+                    type: string
+        recipeFull:
+            allOf:
+                - $ref: '#/components/schemas/recipeShort'
+                - type: object
+                  properties:
+                      instructions:
+                          type: string
+                      category:
+                          $ref: '#/components/schemas/simpleObject'
+                      area:
+                          $ref: '#/components/schemas/simpleObject'
+                      time:
+                          type: string
+                      ingredients:
+                          type: array
+                          items:
+                              allOf:
+                                  - $ref: '#/components/schemas/ingredientShort'
+                                  - type: object
+                                    properties:
+                                        measure:
+                                            type: string
+                      owner:
+                          type: string
+        error:
+            type: object
+            properties:
+                message:
+                    type: string
+
+    securitySchemes:
+        none:
+            type: http
+            scheme: none
+        bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT # optional, arbitrary value for documentation purposes
