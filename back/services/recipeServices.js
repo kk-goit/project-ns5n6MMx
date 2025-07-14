@@ -70,7 +70,7 @@ export async function addRecipe(
     for (const ing of ingredients) {
       if (!ing?.id) continue;
       await RecipeIngredient.create({
-        reciep_id: newRecipe.id,
+        recipe_id: newRecipe.id,
         ingredient_id: ing.id,
         measure: ing.measure,
       });
@@ -85,7 +85,7 @@ export async function addFavorite(userId, recipeId) {
   if (!recipe) throw new HttpError(404, "Recipe not found");
 
   const [fav, created] = await RecipeUserFavorite.findOrCreate({
-    where: { user_id: userId, reciep_id: recipeId },
+    where: { user_id: userId, recipe_id: recipeId },
   });
   if (!created) throw new HttpError(400, "Already in favorites");
   return fav;
@@ -93,7 +93,7 @@ export async function addFavorite(userId, recipeId) {
 
 export async function removeFavorite(userId, recipeId) {
   const deleted = await RecipeUserFavorite.destroy({
-    where: { user_id: userId, reciep_id: recipeId },
+    where: { user_id: userId, recipe_id: recipeId },
   });
   if (!deleted) throw new HttpError(404, "Favorite not found");
 }

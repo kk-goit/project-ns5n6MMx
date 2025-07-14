@@ -48,3 +48,7 @@ export const recipeSchema = Joi.object({
       "any.required": `"ingredients" is required`,
     }),
 });
+
+export const recipeIdParam = Joi.object({
+  recipeId: Joi.number().required(),
+})

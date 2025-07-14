@@ -120,7 +120,7 @@ const RecipeUserFavorite = sequelize.define(
   }
 );
 
-
+Recipe.hasMany(RecipeUserFavorite, { foreignKey: "recipe_id", as: "is_favorite_check" });
 Recipe.hasMany(RecipeUserFavorite, { foreignKey: "recipe_id", as: "users_favorite_recipes" });
 RecipeUserFavorite.belongsTo(Recipe, { foreignKey: "recipe_id", as: "recipe" });
 User.hasMany(RecipeUserFavorite, { foreignKey: "user_id", as: "favoriteEntries" });
