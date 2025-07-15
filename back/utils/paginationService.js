@@ -1,4 +1,4 @@
-const defaultLimit = 5;
+const defaultLimit = 12;
 
 export function paginate(array, req) {
     const rawPage = parseInt(req.query.page, 10) || 1;
@@ -7,11 +7,12 @@ export function paginate(array, req) {
     const limitPerPage = Math.max(1, rawLimit);
 
     const totalPages = Math.ceil(array.length / limitPerPage);
-    const pageNumber = Math.min(Math.max(1, rawPage), totalPages || 1);
+    const page = Math.min(Math.max(1, rawPage), totalPages || 1);
 
-    const start = (pageNumber - 1) * limitPerPage;
+    const start = (page - 1) * limitPerPage;
     const end = start + limitPerPage;
 
+    return { page, limit: limitPerPage, pages: totalPages, total: array.length, items: array.slice(start, end) };
     const sliced = array.slice(start, end);
 
     return {

@@ -96,6 +96,7 @@ export const logout = async (req, res, next) => {
 export const getCurrent = async (req, res, next) => {
   try {
     res.json({
+      id: req.user.id,
       name: req.user.name,
       email: req.user.email,
       avatar: req.user.avatar,
@@ -107,10 +108,15 @@ export const getCurrent = async (req, res, next) => {
 
 export const getUserById = async (req, res, next) => {
   const user = await authService.getUserById(req.params.id);
-  if (user)
+  if (user) {
+    const fullInfo = (req.user && req.user.id == req.params.id);
+    const data = await authService.getUserDataById(req.params.id, fullInfo);
     res.json({
       name: user.name,
       avatar: user.avatar,
+      email: user.email,
+      ...data
     });
-  else next(new HttpError(404, "Not found"));
+  } else
+    next(new HttpError(404, "Not found"));
 }

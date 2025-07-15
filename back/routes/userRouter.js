@@ -2,6 +2,7 @@ import express from 'express';
 import { registrationHandler } from '../controllers/userController.js';
 import { bodyValidationMiddleware } from '../middlewares/validationMiddleware.js';
 import authenticate from "../middlewares/authenticate.js";
+import { tryAuthenticate } from '../middlewares/authenticate.js';
 
 import { registrationSchema } from '../schemas/userSchemas.js';
 import { loginSchema } from "../schemas/usersSchemas.js";
@@ -36,6 +37,6 @@ const userRouter = express.Router()
     .post("/followees/:id", authenticate, followUser) // Підписка
     .delete("/followees/:id", authenticate, unfollowUser) // Відписка
 
-    .get("/:id", getUserById);
+    .get("/:id", tryAuthenticate, getUserById);
 
 export default userRouter;

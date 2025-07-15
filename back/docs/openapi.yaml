@@ -8,10 +8,12 @@ info:
         url: https://opensource.org/license/MIT
 
 servers:
+    - url: https://test-xe0u.onrender.com/api
+      description: Foodies TEST server
+    - url: https://foodies-backend-gpql.onrender.com
+      description: Foodies PROD server
     - url: http://127.0.0.1:3000/api
       description: Local development server
-    - url: https://test-xe0u.onrender.com/api
-      description: Foodies server
 
 
 tags:
@@ -259,6 +261,7 @@ paths:
         get:
             security:
                 - none: []
+                - bearerAuth: []
             tags:
                 - users
             summary: Get a user information
@@ -319,6 +322,7 @@ paths:
         get:
             security:
                 - none: []
+                - bearerAuth: []
             tags:
                 - recipes
             summary: Get popular recipes
@@ -357,7 +361,6 @@ paths:
             summary: Get recipes by current user
             operationId: listRecipesByOwner
             parameters:
-                - $ref: '#/components/parameters/id_path'
                 - $ref: '#/components/parameters/page_query'
                 - $ref: '#/components/parameters/limit_query'
             responses:
@@ -457,7 +460,11 @@ components:
             in: query
             required: false
             schema:
-                type: integer
+                type: array
+                items:
+                    type: integer
+            style: form
+            explode: false
         owner_query:
             name: owner
             in: query
@@ -607,6 +614,19 @@ components:
                                       type: integer
                                   favoriteRecipes:
                                       type: integer
+        otherUserResponse:
+            description: User information
+            content:
+                application/json:
+                    schema:
+                        allOf:
+                            - $ref: '#/components/schemas/fullUser'
+                            - type: object
+                              properties:
+                                  recipes:
+                                      type: integer
+                                  followers:
+                                      type: integer
         registerResponse:
             description: Successfully registered
             content:
@@ -719,14 +739,14 @@ components:
             type: object
             properties:
                 id:
-                    type: string
+                    type: inetger
                 name:
                     type: string
         testimonials:
             type: object
             properties:
                 id:
-                    type: string
+                    type: integer
                 owner:
                     $ref: '#/components/schemas/simpleObject'
                 testimonial:
@@ -735,7 +755,7 @@ components:
             type: object
             properties:
                 id:
-                    type: string
+                    type: integer
                 name:
                     type: string
                 image:
@@ -744,7 +764,7 @@ components:
             type: object
             properties:
                 id:
-                    type: string
+                    type: integer
                 name:
                     type: string
                 email:
@@ -755,7 +775,7 @@ components:
             type: object
             properties:
                 id:
-                    type: string
+                    type: integer
                 title:
                     type: string
                 description:
@@ -774,7 +794,7 @@ components:
                       area:
                           $ref: '#/components/schemas/simpleObject'
                       time:
-                          type: string
+                          type: integer
                       ingredients:
                           type: array
                           items:
@@ -785,7 +805,7 @@ components:
                                         measure:
                                             type: string
                       owner:
-                          type: string
+                          type: integer
         error:
             type: object
             properties:

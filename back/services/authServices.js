@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
-import { User } from "../db/models/users.js";
+import sequelize from "sequelize";
+import { User, UserFollow } from "../db/models/users.js";
+import { Recipe, RecipeUserFavorite } from "../db/models/recipes.js";
 
 async function createUser(name, email, password, avatar) {
   const user = await User.create({
@@ -33,9 +35,27 @@ async function updateUserToken(userId, token) {
   return await User.update({ token }, { where: { id: userId } });
 }
 
+async function getUserDataById(userId, fullInfo = true) { 
+  return {
+    recipes:
+      await Recipe.count({ where: { user_id: userId } }),
+    followers:
+      await UserFollow.count({ where: { followee_user_id: userId } }),
+    followees:
+      fullInfo ?
+        await UserFollow.count({ where: { follower_user_id: userId } })
+        : undefined,
+    favoriteRecipes:
+      fullInfo ?
+        await RecipeUserFavorite.count({ where: { user_id: userId } })
+        : undefined
+  }
+}
+
 export default {
   createUser,
   getUserById,
+  getUserDataById,
   getUserByEmail,
   generateToken,
   verifyToken,

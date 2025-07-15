@@ -25,3 +25,22 @@ const authenticate = async (req, res, next) => {
 };
 
 export default authenticate;
+
+export const tryAuthenticate = async (req, res, next) => {
+  const { authorization = '' } = req.headers;
+  const [bearer, token] = authorization.split(' ');
+
+  if (bearer !== 'Bearer' || !token) {
+    return next();
+  }
+
+  const { id } = authServices.verifyToken(token);
+  const user = await authServices.getUserById(id);
+
+  if (!user || !user.token || user.token !== token) {
+    return next();
+  }
+
+  req.user = user;
+  next();
+};
