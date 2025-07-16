@@ -17,8 +17,6 @@ app.use(express.static("public"));
 
 app.use("/api/recipes", recipeRouter);
 
-app.use(express.static("public"));
-
 app.use("/api/auth", authRouter);
 app.use("/api", controllerWrapper(apiRouter));
 

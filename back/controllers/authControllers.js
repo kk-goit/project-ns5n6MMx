@@ -10,7 +10,7 @@ export const register = async (req, res, next) => {
     const existingUser = await authService.getUserByEmail(email);
 
     if (existingUser) {
-      throw HttpError(409, "Email in use");
+      throw new HttpError(409, "Email in use");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -33,10 +33,18 @@ export const register = async (req, res, next) => {
       name,
       email,
       hashedPassword,
-      avatar
+      avatar,
     );
 
+    const token = authService.generateToken(user.id);
+    const result = await authService.updateUserToken(user.id, token);
+
+    if (!result) {
+      throw new HttpError(401, "Email or password is wrong");
+    }
+
     res.status(201).json({
+      token,
       user: {
         name: user.name,
         email: user.email,
@@ -55,20 +63,20 @@ export const login = async (req, res, next) => {
     const user = await authService.getUserByEmail(email);
 
     if (!user) {
-      throw HttpError(401, "Email or password is wrong");
+      throw new HttpError(401, "Email or password is wrong");
     }
 
     const passwordCompare = await bcrypt.compare(password, user.password);
 
     if (!passwordCompare) {
-      throw HttpError(401, "Email or password is wrong");
+      throw new HttpError(401, "Email or password is wrong");
     }
 
     const token = authService.generateToken(user.id);
     const result = await authService.updateUserToken(user.id, token);
 
     if (!result) {
-      throw HttpError(401, "Email or password is wrong");
+      throw new HttpError(401, "Email or password is wrong");
     }
 
     res.json({
