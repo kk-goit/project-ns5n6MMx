@@ -1,5 +1,4 @@
 import express from 'express';
-import followRouter from "./followRouter.js";
 import recipeRouter from "./recipeRouter.js";
 import categoriesRouter from './categoriesRouter.js';
 import areasRouter from './areasRouter.js';
@@ -16,7 +15,6 @@ apiRouter.use('/testimonials', testimonialsRouter);
 
 apiRouter.use('/users', userRouter);
 apiRouter.use('/recipes', recipeRouter);
-apiRouter.use("/follow", followRouter);
 
 apiRouter.use((_, res) => res.status(404).json({ message: "Not found" }));
 

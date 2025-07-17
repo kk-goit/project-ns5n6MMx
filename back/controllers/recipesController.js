@@ -11,28 +11,11 @@ export const listRecipes = async (req, res) => {
 
     const allRecipes = await recipesService.listRecipes(filters);
 
-    const {
-      page,
-      limit,
-      pages,
-      total,
-      items: recipes,
-    } = paginate(allRecipes, req);
-
-    res.json({ page, limit, pages, total, recipes });
+    res.json(paginate(req, allRecipes));
 };
 
 export const listMyRecipes = async (req, res) => {
-  const allRecipes = await recipesService.listRecipes({ owner: req.user.id });
-
-    const {
-      page,
-      limit,
-      pages,
-      total,
-      items: recipes,
-    } = paginate(allRecipes, req);
-
-    res.json({ page, limit, pages, total, recipes });
+    const allRecipes = await recipesService.listRecipes({ owner: req.user.id });
+    res.json(paginate(req, allRecipes));
 };
 

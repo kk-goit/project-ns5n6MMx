@@ -18,7 +18,7 @@ import {
   unfollowUser,
   getFollowers,
   getFollowing,
-} from "../controllers/follows.js";
+} from "../controllers/followsControllers.js";
 
 import {
   updateAvatar
