@@ -9,6 +9,7 @@ import {
 import { Category } from "../db/models/categories.js";
 import { Area } from "../db/models/areas.js";
 import HttpError from "../errors/httpError.js";
+import { paginate } from "../utils/paginationService.js";
 
 // ——— READ Controllers ———
 export const getAllRecipesController = async (req, res, next) => {
@@ -88,12 +89,8 @@ export const removeFavorite = async (req, res, next) => {
   }
 };
 
-export const listFavorites = async (req, res, next) => {
-  try {
+export const listFavorites = async (req, res) => {
     const userId = req.user.id;
     const favs = await _listFavorites(userId);
-    res.json(favs);
-  } catch (err) {
-    next(err);
-  }
+    res.json(paginate(req, favs));
 };

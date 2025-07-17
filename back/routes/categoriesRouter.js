@@ -1,9 +1,8 @@
 import express from 'express';
 import { listCategories } from '../controllers/categoriesController.js';
-import controllerWrapper from '../decorators/controllerWrapper.js';
 
 const categoriesRouter = express.Router();
 
-categoriesRouter.get('/', controllerWrapper(listCategories));
+categoriesRouter.get('/', listCategories);
 
 export default categoriesRouter;
