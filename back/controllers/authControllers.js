@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import gravatar from "gravatar";
 import authService from "../services/authServices.js";
-import HttpError from "../helpers/HttpError.js";
+import HttpError from "../errors/httpError.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -10,7 +10,7 @@ export const register = async (req, res, next) => {
     const existingUser = await authService.getUserByEmail(email);
 
     if (existingUser) {
-      throw HttpError(409, "Email in use");
+      throw new HttpError(409, "Email in use");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,20 +55,20 @@ export const login = async (req, res, next) => {
     const user = await authService.getUserByEmail(email);
 
     if (!user) {
-      throw HttpError(401, "Email or password is wrong");
+      throw new HttpError(401, "Email or password is wrong");
     }
 
     const passwordCompare = await bcrypt.compare(password, user.password);
 
     if (!passwordCompare) {
-      throw HttpError(401, "Email or password is wrong");
+      throw new HttpError(401, "Email or password is wrong");
     }
 
     const token = authService.generateToken(user.id);
     const result = await authService.updateUserToken(user.id, token);
 
     if (!result) {
-      throw HttpError(401, "Email or password is wrong");
+      throw new HttpError(401, "Email or password is wrong");
     }
 
     res.json({
@@ -96,6 +96,7 @@ export const logout = async (req, res, next) => {
 export const getCurrent = async (req, res, next) => {
   try {
     res.json({
+      id: req.user.id,
       name: req.user.name,
       email: req.user.email,
       avatar: req.user.avatar,
@@ -104,3 +105,18 @@ export const getCurrent = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getUserById = async (req, res, next) => {
+  const user = await authService.getUserById(req.params.id);
+  if (user) {
+    const fullInfo = (req.user && req.user.id == user.id) ? true : false;
+    const data = await authService.getUserDataById(req.params.id, fullInfo);
+    res.json({
+      name: user.name,
+      avatar: user.avatar,
+      email: user.email,
+      ...data
+    });
+  } else
+    next(new HttpError(404, "Not found"));
+}

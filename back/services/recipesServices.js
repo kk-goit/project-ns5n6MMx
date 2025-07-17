@@ -54,9 +54,12 @@ async function listRecipes(filters = {}) {
                     {
                         model: Ingredient,
                         as: "ingredient",
-                        attributes: ["id", "name"],
+                        attributes: ["id", "name", "img"],
                     },
                 ],
+                //where: havingIngredients.length
+                //    ? { ingredient_id: havingIngredients }
+                //    : undefined,
             },
         ],
     });
@@ -93,11 +96,14 @@ async function listRecipes(filters = {}) {
                 name: r.area.name,
             }
             : null,
+        /*
         ingredients: r.ingredients.map((i) => ({
             id: i.ingredient?.id,
             name: i.ingredient?.name,
             measure: i.measure,
+            img: i.ingredient?.img,
         })),
+        // */
     }));
 }
 

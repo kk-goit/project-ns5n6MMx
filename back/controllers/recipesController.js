@@ -1,8 +1,7 @@
-import recipesService from '../services/recipesServices.js';
-import { paginateItems } from "../decorators/paginate.js";
+import recipesService from "../services/recipesServices.js";
+import { paginate } from "../utils/paginationService.js";
 
 export const listRecipes = async (req, res) => {
-  try {
     const filters = {
       category: req.query.category,
       area: req.query.area,
@@ -12,50 +11,11 @@ export const listRecipes = async (req, res) => {
 
     const allRecipes = await recipesService.listRecipes(filters);
 
-    const {
-      page,
-      limit,
-      pages,
-      total,
-      items: recipes,
-    } = paginateItems(req.query.page, req.query.limit, allRecipes);
-
-    res.json({ page, limit, pages, total, recipes });
-  } catch (error) {
-    console.error("Error listing recipes:", error);
-    res.status(500).json({ message: "Failed to load recipes" });
-  }
+    res.json(paginate(req, allRecipes));
 };
 
-export const getRecipeByIdController = async (req, res, next) => {
-  const { id } = req.params;
-  const { recipe, ingredients } = await recipesService.getRecipeByIdService(id);
-  const updateIngredients = [];
-  ingredients.map((ing) =>
-    updateIngredients.push({
-      name: ing.ingredient.name,
-      measure: ing.measure,
-      image: ing.ingredient.img,
-    })
-  );
-
-  if (!recipe) {
-    return next(HttpError(404, " `Recipe with id=${id} not found`"));
-  }
-  res.json({
-    id: recipe.id,
-    title: recipe.title,
-    category: recipe.category_id,
-    time: recipe.time,
-    description: recipe.description,
-    owner: recipe.user_id,
-    ingredients: updateIngredients,
-    area: recipe.area_id,
-    instructions: recipe.instructions,
-    thumb: recipe.thumb,
-  });
+export const listMyRecipes = async (req, res) => {
+    const allRecipes = await recipesService.listRecipes({ owner: req.user.id });
+    res.json(paginate(req, allRecipes));
 };
 
-export default {
-  getRecipeByIdController,
-};
