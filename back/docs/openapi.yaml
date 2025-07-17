@@ -387,6 +387,22 @@ paths:
                     $ref: '#/components/responses/notFoundResponse'
                 '500':
                     $ref: '#/components/responses/serverErrorResponse'
+        delete:
+            security:
+                - bearerAuth: []
+            tags:
+                - recipes
+            summary: Delete own recipe
+            operationId: deleteRecipe
+            parameters:
+                - $ref: '#/components/parameters/id_path'
+            responses:
+                '204':
+                    description: No content
+                '404':
+                    $ref: '#/components/responses/notFoundResponse'
+                '500':
+                    $ref: '#/components/responses/serverErrorResponse'
     /recipes/{id}/favorite:
         post:
             security:

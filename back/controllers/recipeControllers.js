@@ -5,6 +5,7 @@ import {
   addFavorite as _addFavorite,
   removeFavorite as _removeFavorite,
   listFavorites as _listFavorites,
+  deleteRecipe,
 } from "../services/recipeServices.js";
 import { Category } from "../db/models/categories.js";
 import { Area } from "../db/models/areas.js";
@@ -32,39 +33,44 @@ export const getRecipeByIdController = async (req, res, next) => {
 };
 
 // ——— CREATE/UPDATE Controllers ———
-export async function addRecipeController(req, res, next) {
-  try {
+export async function addRecipeController(req, res) {
     const {
       title,
       category,
       area,
       instructions,
       description,
-      thumb,
       time,
       ingredients,
     } = req.body;
     const ownerId = req.user.id;
-    const categoryObj = await Category.findOne({ where: { name: category } });
-    const areaObj = await Area.findOne({ where: { name: area } });
-    if (!categoryObj || !areaObj) {
-      throw new HttpError(400, "Invalid category or area");
+
+    if (!await Category.findByPk(category)) {
+      throw new HttpError(400, "Invalid category");
     }
+    if (!await Area.findByPk(area)) {
+      throw new HttpError(400, "Invalid area");
+    }
+        
     const newRecipe = await _addRecipe(
       title,
-      categoryObj,
-      areaObj,
+      category,
+      area,
       instructions,
       description,
-      thumb,
+      req.file.path,
+      `${req.protocol}://${req.get('host')}`,
       time,
       ingredients,
       ownerId
     );
     res.status(201).json(newRecipe);
-  } catch (err) {
-    next(err);
-  }
+}
+
+export async function deleteRecipeControlller(req, res) {
+  const id = Number(req.params.recipeId);
+  await deleteRecipe(id, req.user.id);
+  res.status(204).end();
 }
 
 export const addFavorite = async (req, res, next) => {

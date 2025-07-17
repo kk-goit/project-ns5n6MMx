@@ -5,12 +5,10 @@ export const recipeSchema = Joi.object({
     "string.empty": `"title" can't be empty`,
     "any.required": `"title" is required`,
   }),
-  category: Joi.string().min(1).required().messages({
-    "string.empty": `"category" can't be empty`,
+  category: Joi.number().min(1).required().messages({
     "any.required": `"category" is required`,
   }),
-  area: Joi.string().min(1).required().messages({
-    "string.empty": `"area" can't be empty`,
+  area: Joi.number().min(1).required().messages({
     "any.required": `"area" is required`,
   }),
   instructions: Joi.string().min(1).required().messages({
@@ -21,10 +19,6 @@ export const recipeSchema = Joi.object({
     "string.empty": `"description" can't be empty`,
     "any.required": `"description" is required`,
   }),
-  thumb: Joi.string().uri().required().messages({
-    "string.uri": `"thumb" must be a valid URL`,
-    "any.required": `"thumb" is required`,
-  }),
   time: Joi.string().pattern(/^\d+$/).required().messages({
     "string.pattern.base": `"time" must be a number (in minutes)`,
     "any.required": `"time" is required`,
@@ -32,7 +26,7 @@ export const recipeSchema = Joi.object({
   ingredients: Joi.array()
     .items(
       Joi.object({
-        id: Joi.string().required().messages({
+        id: Joi.number().min(1).required().messages({
           "any.required": `"ingredient id" is required`,
         }),
         measure: Joi.string().min(1).required().messages({
