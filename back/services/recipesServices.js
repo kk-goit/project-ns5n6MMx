@@ -96,12 +96,14 @@ async function listRecipes(filters = {}) {
                 name: r.area.name,
             }
             : null,
+        /*
         ingredients: r.ingredients.map((i) => ({
             id: i.ingredient?.id,
             name: i.ingredient?.name,
             measure: i.measure,
             img: i.ingredient?.img,
         })),
+        // */
     }));
 }
 

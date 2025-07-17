@@ -12,7 +12,7 @@ export const followUser = async (req, res) => {
     }
 
     await followsServices.followUser(followerId, followeeId);
-    res.status(200).json({ message: "Successfully followed user." });
+    res.status(201).json({ message: "Added to followers" });
 };
 
 // Скасувати підписку
@@ -27,7 +27,7 @@ export const unfollowUser = async (req, res) => {
         throw new HttpError(404, "Subscription not found.");
     }
 
-    res.status(200).json({ message: "Unfollowed successfully." });
+    res.status(204).end();
 };
 
 // Отримати всіх followers (хто підписався на користувача)
@@ -37,7 +37,6 @@ export const getFollowers = async (req, res) => {
 
     const followers = await followsServices.getFollowers(userId, currentUserId);
 
-    console.log(followers);
     res.status(200).json(
         paginate(req, followers)
     );

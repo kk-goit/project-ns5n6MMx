@@ -25,7 +25,6 @@ export const processAndSaveAvatar = async (file, userId, baseURL) => {
   const avatar = `${baseURL}/avatars/${fileName}`;
 
   try {
-    console.log(`try to update avatar for user ${userId}`);
     await User.update({ avatar }, { where: {id: userId} });
   } catch (err) {
     throw new HttpError(500, "Failed to update avatarURL in database");

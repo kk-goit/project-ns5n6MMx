@@ -60,16 +60,6 @@ export async function addRecipe(
   ownerId
 ) {
 
-  console.log({
-    title,
-    category_id: categoryId,
-    area_id: areaId,
-    user_id: ownerId,
-    instructions,
-    description,
-    baseURL,
-    time,
-  });
   const newRecipe = await Recipe.create({
     title,
     category_id: categoryId,
@@ -88,7 +78,6 @@ export async function addRecipe(
   try {
     await fs.rename(thumb, finalPath);
   } catch (err) {
-    console.log(`path:${thumb}, final:${finalPath}`);
     throw new HttpError(500, "Failed to process avatar image");
   }
   await newRecipe.update({ thumb: thumbURL });

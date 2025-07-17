@@ -1,17 +1,17 @@
 openapi: 3.0.3
 info:
     title: Foodies API
-    version: '0.3.1'
+    version: '0.3.5'
     description: 5th Element :: Foodies API
     license:
         name: MIT License
         url: https://opensource.org/license/MIT
 
 servers:
-    - url: https://test-xe0u.onrender.com/api
-      description: Foodies TEST server
     - url: https://foodies-backend-gpql.onrender.com
       description: Foodies PROD server
+    - url: https://test-xe0u.onrender.com/api
+      description: Foodies TEST server
     - url: http://127.0.0.1:3000/api
       description: Local development server
 
@@ -177,7 +177,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    avatar:
+                                    avatarURL:
                                         type: string
                 '401':
                     $ref: '#/components/responses/notAuthorisedResponse'
@@ -231,8 +231,8 @@ paths:
             parameters:
                 - $ref: '#/components/parameters/id_path'
             responses:
-                '204':
-                    description: No content
+                '201':
+                    $ref: '#/components/responses/successResponse'
                 '400':
                     $ref: '#/components/responses/invalidRequestResponse'
                 '401':
@@ -415,7 +415,7 @@ paths:
                 - $ref: '#/components/parameters/id_path'
             responses:
                 '201':
-                    $ref: '#/components/responses/recipeInformationResponse'
+                    $ref: '#/components/responses/successResponse'
                 '401':
                     $ref: '#/components/responses/notAuthorisedResponse'
                 '500':
@@ -499,9 +499,9 @@ components:
                             title:
                                 type: string
                             category:
-                                type: string
+                                type: integer
                             area:
-                                type: string
+                                type: integer
                             instructions:
                                 type: string
                             description:
@@ -510,7 +510,7 @@ components:
                                 type: string
                                 format: binary
                             time:
-                                type: string
+                                type: integer
                             ingredients:
                                 type: array
                                 format: json
@@ -519,7 +519,7 @@ components:
                                     type: object
                                     properties:
                                         id:
-                                            type: string
+                                            type: integer
                                         measure:
                                             type: string
         avatarRequest:
@@ -580,10 +580,24 @@ components:
                                                         type: object
                                                         properties:
                                                             id:
-                                                                type: string
+                                                                type: integer
                                                             name:
                                                                 type: string
                                                             avatar:
+                                                                type: string
+                                                    category:
+                                                        type: object
+                                                        properties:
+                                                            id:
+                                                                type: integer
+                                                            name:
+                                                                type: string
+                                                    area:
+                                                        type: object
+                                                        properties:
+                                                            id:
+                                                                type: integer
+                                                            name:
                                                                 type: string
         recipeInformationResponse:
             description: Successfully received recipe
@@ -601,7 +615,7 @@ components:
                             - type: object
                               properties:
                                   followers:
-                                      $ref: '#/components/schemas/followexsList'
+                                      $ref: '#/components/schemas/followersList'
         followeesResponse:
             description: Successfully logged in
             content:
@@ -612,7 +626,7 @@ components:
                             - type: object
                               properties:
                                   followees:
-                                      $ref: '#/components/schemas/followexsList'
+                                      $ref: '#/components/schemas/followeesList'
         userResponse:
             description: User information
             content:
@@ -630,19 +644,9 @@ components:
                                       type: integer
                                   favoriteRecipes:
                                       type: integer
-        otherUserResponse:
-            description: User information
-            content:
-                application/json:
-                    schema:
-                        allOf:
-                            - $ref: '#/components/schemas/fullUser'
-                            - type: object
-                              properties:
-                                  recipes:
-                                      type: integer
-                                  followers:
-                                      type: integer
+                              required:
+                                  - recipes
+                                  - followers
         registerResponse:
             description: Successfully registered
             content:
@@ -695,6 +699,12 @@ components:
                         type: array
                         items:
                             $ref: '#/components/schemas/ingredientShort'
+        successResponse:
+            description: Success response
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/success'    
         invalidRequestResponse:
             description: Invalid request
             content:
@@ -721,7 +731,27 @@ components:
                         $ref: '#/components/schemas/error'
 
     schemas:
-        followexsList:
+        followersList:
+            type: array
+            items:
+                allOf:
+                    - $ref: '#/components/schemas/fullUser'
+                    - type: object
+                      properties:
+                          recipeCount:
+                              type: integer
+                          isFollowing:
+                              type: boolean
+                          recipes:
+                              type: array
+                              items:
+                                  type: object
+                                  properties:
+                                      id:
+                                          type: integer
+                                      thumb:
+                                          type: string
+        followeesList:
             type: array
             items:
                 allOf:
@@ -736,7 +766,7 @@ components:
                                   type: object
                                   properties:
                                       id:
-                                          type: string
+                                          type: integer
                                       thumb:
                                           type: string
         pagination:
@@ -755,7 +785,7 @@ components:
             type: object
             properties:
                 id:
-                    type: inetger
+                    type: integer
                 name:
                     type: string
         testimonials:
@@ -787,6 +817,11 @@ components:
                     type: string
                 avatar:
                     type: string
+            required:
+                - id
+                - name
+                - email
+                - avatar
         recipeShort:
             type: object
             properties:
@@ -823,6 +858,11 @@ components:
                       owner:
                           type: integer
         error:
+            type: object
+            properties:
+                message:
+                    type: string
+        success:
             type: object
             properties:
                 message:

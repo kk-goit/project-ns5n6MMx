@@ -30,7 +30,7 @@ export const getPopularRecipes = async (userId) => {
     ],
     group: ['recipes.id', 'user.id'],
     order: [[sequelize.literal('"favoritesCount"'), 'DESC']],
-    limit: 10,
+    limit: 4,
     subQuery: false,
   });
 

@@ -14,22 +14,14 @@ import { paginate } from "../utils/paginationService.js";
 
 // ——— READ Controllers ———
 export const getAllRecipesController = async (req, res, next) => {
-  try {
     const recipes = await getAllRecipes();
     res.json(recipes);
-  } catch (err) {
-    next(err);
-  }
 };
 
 export const getRecipeByIdController = async (req, res, next) => {
-  try {
     const id = Number(req.params.recipeId);
     const recipe = await getRecipeById(id);
     res.json(recipe);
-  } catch (err) {
-    next(err);
-  }
 };
 
 // ——— CREATE/UPDATE Controllers ———
@@ -64,7 +56,7 @@ export async function addRecipeController(req, res) {
       ingredients,
       ownerId
     );
-    res.status(201).json(newRecipe);
+    res.status(201).json(await getRecipeById(newRecipe.id));
 }
 
 export async function deleteRecipeControlller(req, res) {
@@ -74,25 +66,17 @@ export async function deleteRecipeControlller(req, res) {
 }
 
 export const addFavorite = async (req, res, next) => {
-  try {
     const userId = req.user.id;
     const recipeId = Number(req.params.recipeId);
     await _addFavorite(userId, recipeId);
     res.status(201).json({ message: "Added to favorites" });
-  } catch (err) {
-    next(err);
-  }
 };
 
 export const removeFavorite = async (req, res, next) => {
-  try {
     const userId = req.user.id;
     const recipeId = Number(req.params.recipeId);
     await _removeFavorite(userId, recipeId);
     res.status(204).end();
-  } catch (err) {
-    next(err);
-  }
 };
 
 export const listFavorites = async (req, res) => {

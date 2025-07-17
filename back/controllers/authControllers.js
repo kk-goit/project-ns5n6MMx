@@ -109,7 +109,7 @@ export const getCurrent = async (req, res, next) => {
 export const getUserById = async (req, res, next) => {
   const user = await authService.getUserById(req.params.id);
   if (user) {
-    const fullInfo = (req.user && req.user.id == req.params.id);
+    const fullInfo = (req.user && req.user.id == user.id) ? true : false;
     const data = await authService.getUserDataById(req.params.id, fullInfo);
     res.json({
       name: user.name,

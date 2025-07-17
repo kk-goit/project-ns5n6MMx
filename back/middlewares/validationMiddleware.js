@@ -2,7 +2,6 @@ import ValidationError from "../errors/validationError.js";
 
 const validationMiddleware = (schema, objName = 'body', setAfter = true) => {
     const func = (req, _, next) => {
-        //console.log(`objName:${objName},data:${req[objName]}`);
         const { value, error } = schema.validate(req[objName]);
         if (error) {
             return next(ValidationError.fromError(error));
