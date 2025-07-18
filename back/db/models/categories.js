@@ -9,14 +9,11 @@ const Category = sequelize.define(
       allowNull: false,
     },
     img: {
-      type: DataTypes.STRING(1024),
+      type: DataTypes.STRING(128),
       allowNull: true,
-      validate: {
-        isUrl: true,
-      }
     },
     desc: {
-      type: DataTypes.STRING(4096),
+      type: DataTypes.STRING(256),
       allowNull: true,
     }
   },

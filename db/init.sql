@@ -4484,3 +4484,29 @@ ALTER TABLE ONLY public.users_follows
 -- PostgreSQL database dump complete
 --
 
+--
+-- Fullfill the categoires
+--
+
+UPDATE categories SET "desc" = CASE
+    WHEN id = 5 THEN 'Savor the rich, bold flavors of beef, crafted into hearty dishes that satisfy the soul and elevate every meal.'
+    WHEN id = 12 THEN 'Start your day with vibrant breakfast dishes, blending comfort and creativity to awaken your senses.'
+    WHEN id = 4 THEN 'Relish the versatile charm of chicken, transformed into succulent dishes that delight with every bite.'
+    WHEN id = 6 THEN 'Go on a taste journey, where every sip is a sophisticated creative chord, and every dessert is an expression of the most refined gastronomic desires.'
+    WHEN id = 14 THEN 'Discover the unique, earthy essence of goat, crafted into bold dishes that captivate adventurous palates.'
+    WHEN id = 2 THEN 'Indulge in the tender, savory allure of lamb, where each dish sings with rich, aromatic sophistication.'
+    WHEN id = 10 THEN 'Explore a vibrant array of eclectic dishes, each a unique blend of flavors to surprise and delight.'
+    WHEN id = 11 THEN 'Twirl into the comforting embrace of pasta, where each dish weaves tradition with culinary artistry.'
+    WHEN id = 8 THEN 'Savor the juicy, robust flavors of pork, crafted into dishes that balance comfort and bold creativity.'
+    WHEN id = 1 THEN 'Dive into the fresh, briny delights of seafood, where each dish captures the essence of the ocean.'
+    WHEN id = 13 THEN 'Enhance your meal with vibrant sides, each crafted to complement and elevate the main experience.'
+    WHEN id = 15 THEN 'Warm the soul with soulful soups, blending rich flavors and comforting aromas in every spoonful.'
+    WHEN id = 3 THEN 'Ignite your appetite with starters, each a tantalizing prelude to the culinary journey ahead.'
+    WHEN id = 7 THEN 'Celebrate plant-based artistry with vegan dishes, bursting with vibrant flavors and creativity.'
+    WHEN id = 9 THEN 'Delight in vegetarian creations, where fresh ingredients shine in harmonious, flavorful dishes.'
+END WHERE id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+
+UPDATE categories set "img" = 'categories-' || lower("name") || '.jpg';
+
+
+
