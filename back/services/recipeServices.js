@@ -28,7 +28,6 @@ export async function getAllRecipes() {
   });
 }
 
-
 export async function getRecipeById(recipeId) {
   const recipe = await Recipe.findByPk(recipeId, {
     include: [
@@ -46,7 +45,6 @@ export async function getRecipeById(recipeId) {
   return recipe;
 }
 
-
 export async function addRecipe(
   title,
   categoryId,
@@ -59,6 +57,13 @@ export async function addRecipe(
   ingredients,
   ownerId
 ) {
+  if (typeof ingredients === "string") {
+    try {
+      ingredients = JSON.parse(ingredients);
+    } catch (e) {
+      throw new HttpError(400, "ingredients must be JSON array");
+    }
+  }
 
   const newRecipe = await Recipe.create({
     title,
@@ -74,7 +79,7 @@ export async function addRecipe(
   await fs.mkdir(thumbsDir, { recursive: true });
   const thumbFilename = `${newRecipe.id}${path.extname(thumb)}`;
   const thumbURL = `${baseURL}/thumbs/${thumbFilename}`;
-  const finalPath = path.join(thumbsDir, thumbFilename)
+  const finalPath = path.join(thumbsDir, thumbFilename);
   try {
     await fs.rename(thumb, finalPath);
   } catch (err) {
@@ -103,12 +108,12 @@ export async function deleteRecipe(id, userId) {
 
   const deleted = await Recipe.destroy({
     where: { id, user_id: userId },
-  })   
+  });
   if (!deleted) throw new HttpError(404, "Recipe not found or not yours");
 
-  await fs.rm(path.join(thumbsDir, thumb.split('/').pop()));
+  await fs.rm(path.join(thumbsDir, thumb.split("/").pop()));
 }
-      
+
 export async function addFavorite(userId, recipeId) {
   const recipe = await Recipe.findByPk(recipeId);
   if (!recipe) throw new HttpError(404, "Recipe not found");
