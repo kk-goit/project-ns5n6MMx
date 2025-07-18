@@ -57,13 +57,6 @@ export async function addRecipe(
   ingredients,
   ownerId
 ) {
-  if (typeof ingredients === "string") {
-    try {
-      ingredients = JSON.parse(ingredients);
-    } catch (e) {
-      throw new HttpError(400, "ingredients must be JSON array");
-    }
-  }
 
   const newRecipe = await Recipe.create({
     title,
@@ -83,6 +76,7 @@ export async function addRecipe(
   try {
     await fs.rename(thumb, finalPath);
   } catch (err) {
+    await newRecipe.destroy();
     throw new HttpError(500, "Failed to process avatar image");
   }
   await newRecipe.update({ thumb: thumbURL });

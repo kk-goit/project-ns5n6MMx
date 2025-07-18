@@ -52,7 +52,6 @@ const Recipe = sequelize.define(
         thumb: {
             type: DataTypes.STRING(1024),
             allowNull: false,
-      validate: { isUrl: true },
             },
         },
   {
