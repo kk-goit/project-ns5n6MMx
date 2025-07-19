@@ -8,7 +8,7 @@ info:
         url: https://opensource.org/license/MIT
 
 servers:
-    - url: https://foodies-backend-gpql.onrender.com
+    - url: https://foodies-backend-gpql.onrender.com/api
       description: Foodies PROD server
     - url: https://test-xe0u.onrender.com/api
       description: Foodies TEST server

@@ -5,7 +5,7 @@ import sequelize from '../db/connection.js';
 export const getPopularRecipes = async (userId) => {
   const popularRecipes = await Recipe.findAll({
     attributes: [
-      'id', 'title', 'thumb',
+      'id', 'title', 'thumb', 'description',
       [sequelize.fn('COUNT', sequelize.col('users_favorite_recipes.user_id')), 'favoritesCount'],
       [sequelize.fn('COUNT', sequelize.col('is_favorite_check.user_id')), 'is_my_favorite']
     ],
