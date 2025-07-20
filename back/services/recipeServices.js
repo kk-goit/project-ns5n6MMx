@@ -105,7 +105,11 @@ export async function deleteRecipe(id, userId) {
   });
   if (!deleted) throw new HttpError(404, "Recipe not found or not yours");
 
-  await fs.rm(path.join(thumbsDir, thumb.split("/").pop()));
+  try {
+    await fs.rm(path.join(thumbsDir, thumb.split("/").pop()));
+  } catch {
+    // do nothning if file not exists
+  }
 }
 
 export async function addFavorite(userId, recipeId) {
