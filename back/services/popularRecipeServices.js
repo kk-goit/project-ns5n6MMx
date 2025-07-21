@@ -18,7 +18,7 @@ export const getPopularRecipes = async (userId) => {
       {
         model: User,
         as: 'user',
-        attributes: ['name', 'avatar'],
+        attributes: ['id', 'name', 'avatar'],
       },
       {
         model: RecipeUserFavorite,
