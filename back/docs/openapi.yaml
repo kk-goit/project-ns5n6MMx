@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
     title: Foodies API
     version: '0.3.5'
-    description: 5th Element :: Foodies API
+    description: 5 Round :: Foodies API
     license:
         name: MIT License
         url: https://opensource.org/license/MIT

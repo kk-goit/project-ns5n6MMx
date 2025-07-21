@@ -1,6 +1,6 @@
-# 5th Element :: Foodies API
+# 5 Round  :: Foodies API
 
-Welcome to the **5th Element :: Foodies API** documentation. This RESTful API provides functionality for a social recipe platform where users can register, manage recipes, interact with ingredients, follow other users, and more.
+Welcome to the **5 Round :: Foodies API** documentation. This RESTful API provides functionality for a social recipe platform where users can register, manage recipes, interact with ingredients, follow other users, and more.
 
 📘 **Live API Docs (Swagger UI):**  
 [https://foodies-backend-gpql.onrender.com/api-docs/](https://foodies-backend-gpql.onrender.com/api-docs/)
